@@ -3,13 +3,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private CharacterController characterController;
     [SerializeField] private Transform playerLocation; 
 
     private float moveX = 0f;
     private float moveY = 0f;
-    private Vector3 velocity; 
+    private Vector3 velocity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,10 +21,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleMovement();
+    }
+
+    void HandleMovement()
+    {
         moveX = 0f;
         moveY = 0f;
 
-        if(Keyboard.current.wKey.isPressed)
+        if (Keyboard.current.wKey.isPressed)
         {
             moveY += 1f;
             //Debug.Log("w is pressed"); 
