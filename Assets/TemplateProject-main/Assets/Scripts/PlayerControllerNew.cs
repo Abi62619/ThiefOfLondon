@@ -72,7 +72,8 @@ public class PlayerControllerNew : MonoBehaviour
 
     private void Update()
     {        
-        /*if (jumpAction.ReadValue<float>()!=0) // Use this if you want continious input
+        Vector2 MoveSide = moveAction.ReadValue<Vector2>();
+       /* if (jumpAction.ReadValue<float>()!=0) // Use this if you want continious input
         {
             Debug.Log("Jump Continoues");
         }*/
