@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e28bc7de63dd25240a2a72043fc4bd03
+guid: 2449022585e7b3b4a99a070bb5ba1088
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Mavient
+  - Old London Alternate
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
