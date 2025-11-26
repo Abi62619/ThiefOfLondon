@@ -1,70 +1,82 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerNew : MonoBehaviour
 {
-    [Header("Player Movement")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private CharacterController characterController;
-    [SerializeField] private Transform playerLocation; 
+    // Reference to your Input Action Asset
+    public InputActionAsset inputActionAsset;
 
-    private float moveX = 0f;
-    private float moveY = 0f;
-    private Vector3 velocity;
+    // Input Actions // Action to bind and use
+    private InputAction moveAction;
+    private InputAction interactAction;
+    private InputAction jumpAction;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // Movement variables
+    private Vector2 moveInput;
+    public float moveSpeed = 5f;
+
+    private void OnEnable()
     {
-        characterController = GetComponent<CharacterController>();
+        // Find the specific action map and actions
+        var actionMap = inputActionAsset.FindActionMap("Player");  // Replace "Player" with the name of your action map
+        moveAction = actionMap.FindAction("Move");                // Replace "Move" with the name of your move action
+        interactAction = actionMap.FindAction("Interact");        // Replace "Interact" with the name of your interact action
+        jumpAction = actionMap.FindAction("Jump");
+
+        // Enable actions
+        moveAction.Enable();
+        interactAction.Enable();
+        jumpAction.Enable();
+
+
+        // Subscribe to input events
+        moveAction.performed += OnMove;
+        moveAction.canceled += OnMove;  // Handle when movement input stops
+        interactAction.performed += OnInteract;
+        jumpAction.performed += OnJump;
+       
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        HandleMovement();
+        // Unsubscribe from input events
+        moveAction.performed -= OnMove;
+        moveAction.canceled -= OnMove;
+        interactAction.performed -= OnInteract;
+        jumpAction.performed -= OnJump;
+        
+
+        // Disable actions
+        moveAction.Disable();
+        interactAction.Disable();
+        jumpAction.Disable();
     }
 
-    void HandleMovement()
+    // Move input handler
+    private void OnMove(InputAction.CallbackContext context)
     {
-        moveX = 0f;
-        moveY = 0f;
+        moveInput = context.ReadValue<Vector2>();  // Read the 2D move vector from the input
+    }
 
-        if (Keyboard.current.wKey.isPressed)
+    // Interact button handler
+    private void OnInteract(InputAction.CallbackContext context)
+    {
+        // Perform interaction logic here
+        Debug.Log("Interact button pressed!");
+    }
+
+    private void OnJump (InputAction.CallbackContext context)
+    {
+        Debug.Log("You Jumped");
+    }
+
+    private void Update()
+    {        
+        Vector2 MoveSide = moveAction.ReadValue<Vector2>();
+       /* if (jumpAction.ReadValue<float>()!=0) // Use this if you want continious input
         {
-            moveY += 1f;
-            //Debug.Log("w is pressed"); 
-        }
+            Debug.Log("Jump Continoues");
+        }*/
 
-        if (Keyboard.current.aKey.isPressed)
-        {
-            moveX -= 1f;
-            //Debug.Log("a is pressed");
-        }
-
-        if (Keyboard.current.sKey.isPressed)
-        {
-            moveY -= 1f;
-            //Debug.Log("s is pressed");
-        }
-
-        if (Keyboard.current.dKey.isPressed)
-        {
-            moveX += 1f;
-            //Debug.Log("d is pressed");
-        }
-
-        // direction 
-        Vector3 move = new Vector3(moveX, 0f, moveY);
-
-        if (move.magnitude > 1f)
-        {
-            move.Normalize();
-        }
-
-        //multiply
-        velocity = move * moveSpeed * Time.deltaTime;
-
-        //move
-        characterController.Move(velocity);
     }
 }
