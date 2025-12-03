@@ -6,7 +6,6 @@ public class PlayerControllerNew : MonoBehaviour
     public InputActionAsset inputActionAsset;
 
     private InputAction moveAction;
-    private InputAction interactAction;
     private InputAction jumpAction;
 
     [Header("Movement")]
@@ -37,16 +36,12 @@ public class PlayerControllerNew : MonoBehaviour
     {
         var actionMap = inputActionAsset.FindActionMap("Player");
         moveAction = actionMap.FindAction("Move");
-        interactAction = actionMap.FindAction("Interact");
         jumpAction = actionMap.FindAction("Jump");
 
         moveAction.Enable();
-        interactAction.Enable();
         jumpAction.Enable();
 
         moveAction.performed += OnMove;
-        moveAction.canceled += OnMove;
-        interactAction.performed += OnInteract;
         jumpAction.performed += OnJump;
     }
 
@@ -54,22 +49,15 @@ public class PlayerControllerNew : MonoBehaviour
     {
         moveAction.performed -= OnMove;
         moveAction.canceled -= OnMove;
-        interactAction.performed -= OnInteract;
         jumpAction.performed -= OnJump;
 
         moveAction.Disable();
-        interactAction.Disable();
         jumpAction.Disable();
     }
 
     private void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-    }
-
-    private void OnInteract(InputAction.CallbackContext context)
-    {
-        Debug.Log("Interact button pressed!");
     }
 
     private void OnJump(InputAction.CallbackContext context)
