@@ -9,9 +9,29 @@ public class PlayerControllerNew : MonoBehaviour
     private InputAction interactAction;
     private InputAction jumpAction;
 
+    [Header("Movement")]
     private Vector2 moveInput;
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
+
+    [Header("Jump")]
+    [SerializeField] float jumpForce = 10;
+    [SerializeField] private Rigidbody rb;
+    private bool isGrounded = true; 
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        Cursor.lockState = CursorLockMode.Locked; //can be deleted 
+        Cursor.visible = false;
+
+        MovePlayer();
+        RotatePlayerTowardMovement();
+    }
 
     private void OnEnable()
     {
@@ -28,15 +48,6 @@ public class PlayerControllerNew : MonoBehaviour
         moveAction.canceled += OnMove;
         interactAction.performed += OnInteract;
         jumpAction.performed += OnJump;
-    }
-
-    private void Update()
-    {
-        Cursor.lockState = CursorLockMode.Locked; //can be deleted 
-        Cursor.visible = false;
-
-        MovePlayer();
-        RotatePlayerTowardMovement();
     }
 
     private void OnDisable()
@@ -63,6 +74,11 @@ public class PlayerControllerNew : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext context)
     {
+        if (context.performed && isGrounded) // context performed input triggered 
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
         Debug.Log("You Jumped");
     }
 
@@ -86,6 +102,14 @@ public class PlayerControllerNew : MonoBehaviour
                 targetRotation,
                 rotationSpeed * Time.deltaTime
             );
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
         }
     }
 }
