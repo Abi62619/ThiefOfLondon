@@ -25,9 +25,6 @@ public class PlayerControllerNew : MonoBehaviour
 
     private void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked; //can be deleted 
-        Cursor.visible = false;
-
         MovePlayer();
         RotatePlayerTowardMovement();
     }

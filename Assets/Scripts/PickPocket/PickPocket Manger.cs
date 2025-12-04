@@ -1,3 +1,4 @@
+﻿using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,31 +8,31 @@ public class PickPocketManger : MonoBehaviour
     public InputActionAsset inputActionAsset;
 
     private InputAction interactAction;
-
-    public LayerMask NPCmask; 
-
+    private PickpocketDetector detector;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void Awake()
     {
-        NPCmask = LayerMask.GetMask("NPC", "Player"); 
+        detector = GetComponent<PickpocketDetector>();
     }
 
     private void OnEnable()
     {
+        Debug.Log("PickPocketManager ENABLED");
+
         var actionMap = inputActionAsset.FindActionMap("Player");
-        interactAction = actionMap.FindAction("Interact");
+        interactAction = actionMap.FindAction("Pickpocket");
 
         interactAction.Enable();
 
@@ -48,17 +49,14 @@ public class PickPocketManger : MonoBehaviour
     private void OnInteract(InputAction.CallbackContext context)
     {
         Debug.Log("Interact button pressed!");
-    }
 
-    private void FixedUpdate()
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, NPCmask))
-
+        if (detector.currentTarget != null)
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-            Debug.Log("Did Hit");
+            Debug.Log($"Pickpocketed: {detector.currentTarget.name}");
+        }
+        else
+        {
+            Debug.Log("No target in range to pickpocket.");
         }
     }
 }
