@@ -1,100 +1,165 @@
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerControlTryf : MonoBehaviour
+public class PlayerControllerTryf : MonoBehaviour
 {
+    [Header("Input Actions")]
     public InputActionAsset inputActionAsset;
-
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction lookAction;
-
-    public Vector2 moveInput;
-    public Vector2 lookInput;
+    private InputAction crouchAction;
+    private InputAction slideAction;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
+    private Vector2 moveInput;
+    private Vector2 lookInput;
 
     [Header("Mouse Look Settings")]
     public float mouseSense = 2f;
     public Transform playerCamera;
+    private float rotationX = 0f;
+
+    [Header("Crouch & Slide Settings")]
+    private Vector3 crouchScale = new Vector3(1f, 0.25f, 1f);
+    private Vector3 playerScale = new Vector3(1f, 1f, 1f);
+
+    public float slideSpeed = 10f;
+    public float slideDuration = 1f;
+    private bool isSliding = false;
+    private float slideTimer = 0f;
 
     private Rigidbody rb;
-    private float rotationX = 0f;
     private bool isGrounded;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
-
-
     }
-    private void OnEnable()
+
+    void OnEnable()
     {
         var actionMap = inputActionAsset.FindActionMap("Player");
+
         moveAction = actionMap.FindAction("Move");
         jumpAction = actionMap.FindAction("Jump");
         lookAction = actionMap.FindAction("Look");
+        crouchAction = actionMap.FindAction("Crouch");
+        slideAction = actionMap.FindAction("Slide");
 
-        moveAction.Enable();
-        jumpAction.Enable();
-        lookAction.Enable();
+        moveAction?.Enable();
+        jumpAction?.Enable();
+        lookAction?.Enable();
+        crouchAction?.Enable();
+        slideAction?.Enable();
 
         jumpAction.performed += OnJump;
-      
+        crouchAction.started += OnCrouchStarted;
+        crouchAction.canceled += OnCrouchCanceled;
+        slideAction.started += OnSlideStarted;
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-   
         jumpAction.performed -= OnJump;
-       
+        crouchAction.started -= OnCrouchStarted;
+        crouchAction.canceled -= OnCrouchCanceled;
+        slideAction.started -= OnSlideStarted;
 
-        moveAction.Disable();
-        jumpAction.Disable();
-        lookAction.Disable();
-    }
-   
-
-    
-
-    private void OnJump(InputAction.CallbackContext context)
-    {
-       
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
+        moveAction?.Disable();
+        jumpAction?.Disable();
+        lookAction?.Disable();
+        crouchAction?.Disable();
+        slideAction?.Disable();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
-       
-        lookInput = lookAction.ReadValue<Vector2>()*mouseSense;
+        // Look
+        lookInput = lookAction.ReadValue<Vector2>() * mouseSense;
         rotationX -= lookInput.y;
         rotationX = Mathf.Clamp(rotationX, -90f, 90f);
-
         playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
         transform.Rotate(Vector3.up * lookInput.x);
 
-     
+        // Sliding logic
+        if (isSliding)
+        {
+            slideTimer += Time.deltaTime;
+            if (slideTimer >= slideDuration)
+                EndSlide();
+
+            Vector3 slideMove = transform.forward * slideSpeed * Time.deltaTime;
+            rb.MovePosition(rb.position + slideMove);
+        }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
+        if (!isSliding)
+        {
+            moveInput = moveAction.ReadValue<Vector2>();
+            Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
+            Vector3 targetVelocity = move * moveSpeed;
 
-        moveInput = moveAction.ReadValue<Vector2>();
-        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
-        Vector3 targetVelocity = move * moveSpeed;
-        Vector3 velocity = rb.linearVelocity;
-        Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
+            Vector3 velocity = rb.linearVelocity;
+            Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
 
-        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        }
+    }
 
+    private void OnJump(InputAction.CallbackContext context)
+    {
+        if (isGrounded && !isSliding)
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void OnCrouchStarted(InputAction.CallbackContext context)
+    {
+        Debug.Log("Crouch started, position: " + transform.position); 
+        if (!isSliding)
+        {
+            transform.localScale = crouchScale;
+            transform.position -= new Vector3(0, 0.5f, 0);
+        }
+    }
+
+    private void OnCrouchCanceled(InputAction.CallbackContext context)
+    {
+        if (!isSliding)
+        {
+            transform.localScale = playerScale;
+            transform.position += new Vector3(0, 0.5f, 0);
+        }
+    }
+
+    private void OnSlideStarted(InputAction.CallbackContext context)
+    {
+        Debug.Log("Slide started, position: " + transform.position);
+        if (!isSliding)
+        {
+            moveInput = moveAction.ReadValue<Vector2>();
+            if (moveInput.magnitude > 0.1f && isGrounded)
+            {
+                isSliding = true;
+                slideTimer = 0f;
+
+                // Shrink player like crouch
+                transform.localScale = crouchScale;
+                transform.position -= new Vector3(0, 0.5f, 0);
+            }
+        }
+    }
+
+    private void EndSlide()
+    {
+        isSliding = false;
+        transform.localScale = playerScale;
+        transform.position += new Vector3(0, 0.5f, 0);
     }
 
     private void OnCollisionEnter(Collision collision)
