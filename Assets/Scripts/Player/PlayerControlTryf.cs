@@ -30,8 +30,7 @@ public class PlayerControlTryf : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+
 
     }
     private void OnEnable()
