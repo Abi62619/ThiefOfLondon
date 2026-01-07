@@ -126,8 +126,6 @@ public class PickPocketManger : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("PickPocketManager ENABLED");
-
         var actionMap = inputActionAsset.FindActionMap("Player");
         interactAction = actionMap.FindAction("Pickpocket");
 
@@ -184,7 +182,6 @@ public class PickPocketManger : MonoBehaviour
         else
         {
             Failure(); 
-            Debug.Log("Pickpocket Failed!");
         }
 
         isGameEnded = true;
