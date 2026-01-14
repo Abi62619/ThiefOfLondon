@@ -1,7 +1,4 @@
 ﻿using System;
-using NUnit.Framework.Interfaces;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -53,6 +50,8 @@ public class PickPocketManger : MonoBehaviour
     void Start()
     {
         StartGame(); 
+        
+        Cursor.lockState = CursorLockMode.Locked; 
     }
 
     // Update is called once per frame
@@ -126,6 +125,8 @@ public class PickPocketManger : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("PickPocket Manager assigned!"); 
+
         var actionMap = inputActionAsset.FindActionMap("Player");
         interactAction = actionMap.FindAction("Pickpocket");
 
@@ -152,11 +153,19 @@ public class PickPocketManger : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        if (!TryFindNPC()) return;
+        Debug.Log("[PickPocket] Interact pressed");
+
+        if (!TryFindNPC())
+        {
+            Debug.Log("[PickPocket] No NPC found");
+            return;
+        }
+
+        Debug.Log($"[PickPocket] NPC found: {currentTarget.name}");
 
         if (currentTarget.hasBeenPickpocketed)
         {
-            Debug.Log("This NPC has already been pickpocketed.");
+            Debug.Log("[PickPocket] NPC already pickpocketed");
             return;
         }
 
@@ -172,12 +181,16 @@ public class PickPocketManger : MonoBehaviour
 
     private void CheckSuccess()
     {
-        bool success = currentIndicatorPosition >= (successZoneCenter - successZoneHalfWidth) && currentIndicatorPosition <= (successZoneCenter + successZoneHalfWidth);
+        bool success =
+            currentIndicatorPosition >= (successZoneCenter - successZoneHalfWidth) &&
+            currentIndicatorPosition <= (successZoneCenter + successZoneHalfWidth);
+
+        Debug.Log($"[PickPocket] CheckSuccess: {success}");
 
         if(success)
         {
             GiveRewards();
-            Debug.Log("Pickpocket Successful!");
+            Debug.Log("[PickPocket] Pickpocket successful");
         }
         else
         {
@@ -186,19 +199,13 @@ public class PickPocketManger : MonoBehaviour
 
         isGameEnded = true;
         isPlaying = false;
-
     }
 
     public void CloseMinigame()
     {
-        Debug.Log("Close button pressed!");
+        Debug.Log("[PickPocket] CloseMinigame()");
+
         pickPocketMiniGameUI.SetActive(false);  
-    }
-
-
-    private void ResetGame()
-    {
-        StartGame();
     }
 
     private bool TryFindNPC()
@@ -213,7 +220,7 @@ public class PickPocketManger : MonoBehaviour
             if (target != null)
             {
                 currentTarget = target;
-                Debug.Log("NPC found: " + target.name);
+                Debug.Log("[PickPocket] Raycast hit NPC");
                 return true;
             }
         }
@@ -224,13 +231,16 @@ public class PickPocketManger : MonoBehaviour
 
     private void GiveRewards()
     {
+        Debug.Log($"[PickPocket] playerInventory null? {playerInventory == null}");
+
         int gold = UnityEngine.Random.Range(minGold, maxGold + 1);
         playerInventory.AddGold(gold);
 
+        Debug.Log($"[PickPocket] Gold gained: {gold}");
+
         if (UnityEngine.Random.value <= itemChance)
         {
-            Debug.Log("Item stolen!");
-            // playerInventory.AddItem(item);
+            Debug.Log("[PickPocket] Item stolen");
         }
 
         currentTarget.hasBeenPickpocketed = true;
@@ -238,11 +248,11 @@ public class PickPocketManger : MonoBehaviour
 
     private void Failure()
     {
-        Debug.Log("NPC alerted! Pickpocket failed.");
+        Debug.Log("[PickPocket] Pickpocket failed - NPC alerted");
     }   
 
     public void TestButton()
     {
-        Debug.Log("Button works!");
+        Debug.Log("[PickPocket] Test button works");
     }
 }
