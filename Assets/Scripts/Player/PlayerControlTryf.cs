@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerControlTryf : MonoBehaviour
 {
@@ -20,10 +21,6 @@ public class PlayerControlTryf : MonoBehaviour
     [Header("Mouse Look Settings")]
     public float mouseSense = 2f;
     public Transform playerCamera;
-
-    private Rigidbody rb;
-    private float rotationX = 0f;
-    private bool isGrounded;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

@@ -1,74 +1,107 @@
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerSlide : MonoBehaviour
 {
-    [Header("Slide Settings")]
-    public float slideSpeed = 10f;
-    public float slideDuration = 0.75f;
-    public float slideCooldown = 1f;
-    public float slideHeight = 0.5f;
+    [Header("Input Actions")]
+    public PlayerControlTryf playerScript;
+    public InputActionAsset inputActionAsset;
+    private InputAction slideAction;
 
+    [Header("Player References")]
+    public Transform orientation;
+    public Transform playerobj;
     private Rigidbody rb;
-    private CapsuleCollider capsule;
-
-    private float originalHeight;
-    private float slideTimer;
-    private float nextSlideTime;
-
-    private bool isSliding;
+    private float rotationX = 0f;
     private bool isGrounded;
-    private Vector2 moveInput;
 
-    public bool IsSliding => isSliding;
+    [Header("Sliding")]
+    [SerializeField] private float maxSlideTime;
+    [SerializeField] private float slideForce;
+    [SerializeField] private float slideTimer;
+    [SerializeField] private float slideYScale;
+    private float startYScale;
+    private bool isSliding;
 
-    void Awake()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        capsule = GetComponent<CapsuleCollider>();
-        originalHeight = capsule.height;
+        playerScript = GetComponent<PlayerControlTryf>();
+
+        startYScale = playerobj.localScale.y;
     }
 
-    public void SetGrounded(bool grounded)
+    private void Update()
     {
-        isGrounded = grounded;
+        HandleMovement();
+        StartSlide();
     }
 
-    public void SetMoveInput(Vector2 input)
+    private void FixedUpdate()
     {
-        moveInput = input;
-    }
-
-    public void StartSlide()
-    {
-        if (!isGrounded) return;
-        if (Time.time < nextSlideTime) return;
-        if (moveInput.magnitude < 0.1f) return;
-
-        isSliding = true;
-        slideTimer = slideDuration;
-        nextSlideTime = Time.time + slideCooldown;
-
-        capsule.height = slideHeight;
-        rb.AddForce(transform.forward * slideSpeed, ForceMode.VelocityChange);
-    }
-
-    public void StopSlide()
-    {
-        if (!isSliding) return;
-
-        isSliding = false;
-        capsule.height = originalHeight;
-    }
-
-    void Update()
-    {
-        if (!isSliding) return;
-
-        slideTimer -= Time.deltaTime;
-        if (slideTimer <= 0f)
+        if (isSliding)
         {
-            StopSlide();
+            SlidingMovement(); 
         }
+    }
+
+    private void HandleMovement()
+    {
+
+    }
+
+    private void StartSlide()
+    {
+        isSliding = true; 
+
+        playerobj.localScale = new Vector3(playerobj.localScale.x, slideYScale, playerobj.localScale.z);
+        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+        slideTimer = maxSlideTime;
+    }
+
+    private void SlidingMovement()
+    {
+
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("Crouch can happen");
+
+        if (inputActionAsset == null)
+        {
+            Debug.LogError("InputActionAsset NOT assigned!");
+            return;
+        }
+
+        var actionMap = inputActionAsset.FindActionMap("Player");
+        if (actionMap == null) return;
+
+        slideAction = actionMap.FindAction("Slide");
+        if (slideAction == null) return;
+
+        slideAction.Enable();
+        slideAction.performed += OnSlide;
+        slideAction.canceled += OnSlide;
+
+        Debug.Log(slideAction != null ? "Slide action found" : "Slide action MISSING");
+        Debug.Log($"Action map found: {actionMap.name}");
+    }
+
+    private void OnDisable()
+    {
+        slideAction.performed -= OnSlide;
+        slideAction.canceled -= OnSlide;
+
+        slideAction.Disable();
+    }
+
+    private void OnSlide(InputAction.CallbackContext context)
+    {
+        Debug.Log($"Slide phase: {context.phase}");
+        isSliding = context.ReadValueAsButton();
     }
 }
