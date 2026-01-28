@@ -25,7 +25,7 @@ public class PlayerControlTryf : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
 
     }
     private void OnEnable()
@@ -60,7 +60,7 @@ public class PlayerControlTryf : MonoBehaviour
     private void OnJump(InputAction.CallbackContext context)
     {
        
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
     }
 
@@ -70,10 +70,10 @@ public class PlayerControlTryf : MonoBehaviour
     {
        
         lookInput = lookAction.ReadValue<Vector2>()*mouseSense;
-        rotationX -= lookInput.y;
-        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+        //rotationX -= lookInput.y;
+        //rotationX = Mathf.Clamp(rotationX, -90f, 90f);
 
-        playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+        //playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
         transform.Rotate(Vector3.up * lookInput.x);
 
      
@@ -85,20 +85,20 @@ public class PlayerControlTryf : MonoBehaviour
         moveInput = moveAction.ReadValue<Vector2>();
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         Vector3 targetVelocity = move * moveSpeed;
-        Vector3 velocity = rb.linearVelocity;
-        Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
+        //Vector3 velocity = rb.linearVelocity;
+        //Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
 
-        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        //rb.AddForce(velocityChange, ForceMode.VelocityChange);
 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        isGrounded = true;
+        //isGrounded = true;
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        isGrounded = false;
+        //isGrounded = false;
     }
 }
