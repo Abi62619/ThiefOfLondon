@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 
 public class PlayerSlide : MonoBehaviour
 {
+
+    //SCRIPT IS BROKEN DO NOT USE 
     [Header("Input Actions")]
     public PlayerControlTryf playerScript;
     public InputActionAsset inputActionAsset;
