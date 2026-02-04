@@ -1,20 +1,12 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickpocketTarget : MonoBehaviour
 {
-    [SerializeField] private string npcName; 
-    public bool hasBeenPickpocketed; 
+    [SerializeField] private string npcName;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [Header("Pickpocket Loot")]
+    public ItemObject[] possibleLoot;   // drag ScriptableObjects here
+    [Range(0,1)] public float lootChance = 0.5f;  // chance THIS NPC drops item
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool hasBeenPickpocketed;
 }

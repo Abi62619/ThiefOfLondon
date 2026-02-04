@@ -1,25 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    //Debug test for coins, will be removed later
-    [SerializeField] private int coin; 
+    public int coins;
+
+    public List<ItemObject> items = new List<ItemObject>();
 
     public void AddCoin(int amount)
     {
-        coin += amount;
-        Debug.Log("Coins gained: " + amount + ". Total coins: " + coin);
+        coins += amount;
+        Debug.Log("Coins: " + coins);
     }
 
-    public InventoryObject inventory;
-    public void OnTriggerEnter(Collider other)
+    public void AddItem(ItemObject item)
     {
-        var item = other.GetComponent<ItemObject>();
-        if (item)
-        {
-            inventory.AddItem(item, 1);
-            Debug.Log("Picked up: " + item.name);
-            Destroy(other.gameObject);
-        }
+        items.Add(item);
+        Debug.Log("Added item: " + item.name);
     }
 }
