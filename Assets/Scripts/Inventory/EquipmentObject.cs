@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EquipmentItem : ItemObject 
 {
-    public GameObject ClothingItem; 
+    public float attackBonus;
+    public float defenseBonus;
 
     public void Awake ()
     {
