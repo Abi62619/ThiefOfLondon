@@ -8,6 +8,6 @@ public class CoinItem : ItemObject
 
     public void Awake ()
     {
-        type = ItemType.Coin; 
+        type = ItemType.Coins; 
     }
 }

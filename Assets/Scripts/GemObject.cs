@@ -8,6 +8,6 @@ public class GemObject : ItemObject
 
     public void Awake ()
     {
-        type = ItemType.Gem; 
+        type = ItemType.Gems; 
     }
 }
