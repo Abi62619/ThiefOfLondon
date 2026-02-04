@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private int gold; 
+    [SerializeField] private int coin; 
 
-    public void AddGold(int amount)
+    public void AddCoin(int amount)
     {
-        gold += amount;
-        Debug.Log("Gold gained: " + amount + ". Total gold: " + gold);
+        coin += amount;
+        Debug.Log("Coins gained: " + amount + ". Total coins: " + coin);
     }
 }
