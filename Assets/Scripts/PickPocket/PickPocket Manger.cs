@@ -29,8 +29,8 @@ public class PickPocketManger : MonoBehaviour
     [SerializeField] private LayerMask npcLayer; 
 
     [Header("Rewards")]
-    [SerializeField] private int minGold = 5;
-    [SerializeField] private int maxGold = 20;
+    [SerializeField] private int minCoin = 5;
+    [SerializeField] private int maxCoin = 20;
     [SerializeField] private float itemChance = 0.25f; // 25%
 
     private PickpocketTarget currentTarget;
@@ -233,10 +233,10 @@ public class PickPocketManger : MonoBehaviour
     {
         Debug.Log($"[PickPocket] playerInventory null? {playerInventory == null}");
 
-        int gold = UnityEngine.Random.Range(minGold, maxGold + 1);
-        playerInventory.AddGold(gold);
+        int coin = UnityEngine.Random.Range(minCoin, maxCoin + 1);
+        playerInventory.AddCoin(coin);
 
-        Debug.Log($"[PickPocket] Gold gained: {gold}");
+        Debug.Log($"[PickPocket] Coin gained: {coin}");
 
         if (UnityEngine.Random.value <= itemChance)
         {
