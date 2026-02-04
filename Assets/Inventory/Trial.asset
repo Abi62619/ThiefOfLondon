@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Trial
   m_EditorClassIdentifier: 
   prefab: {fileID: 0}
-  type: 5
-  description: 
+  type: 0
+  description: 'Beef
+
+'
