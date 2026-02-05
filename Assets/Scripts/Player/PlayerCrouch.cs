@@ -16,11 +16,11 @@ public class PlayerCrouch : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Crouch can happen"); 
+        //Debug.Log("Crouch can happen"); 
 
         if (inputActionAsset == null)
         {
-            Debug.LogError("InputActionAsset NOT assigned!");
+            //Debug.LogError("InputActionAsset NOT assigned!");
             return;
         }
 
@@ -34,8 +34,8 @@ public class PlayerCrouch : MonoBehaviour
         crouchAction.performed += OnCrouch;
         crouchAction.canceled += OnCrouch;
 
-        Debug.Log(crouchAction != null ? "Crouch action found" : "Crouch action MISSING");
-        Debug.Log($"Action map found: {actionMap.name}");
+        //Debug.Log(crouchAction != null ? "Crouch action found" : "Crouch action MISSING");
+        //Debug.Log($"Action map found: {actionMap.name}");
     }
 
     private void OnDisable()
@@ -48,7 +48,7 @@ public class PlayerCrouch : MonoBehaviour
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        Debug.Log($"Crouch phase: {context.phase}");
+        //Debug.Log($"Crouch phase: {context.phase}");
         isCrouching = context.ReadValueAsButton();
     }
 
@@ -57,10 +57,10 @@ public class PlayerCrouch : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>(); 
         standingHeight = capsuleCollider.height;
 
-        if (capsuleCollider == null)
+        /*if (capsuleCollider == null)
         {
             Debug.LogError("CapsuleCollider missing!");
-        }
+        }*/
     }
 
     void Update()

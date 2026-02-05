@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryObject
   container:
   - item: {fileID: 11400000, guid: 032e55413dd5a784c8db246037bcd77b, type: 2}
-    amount: 0
+    amount: 1

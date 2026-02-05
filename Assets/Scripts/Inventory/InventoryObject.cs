@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 
-public class InventoryObject : ScriptableObject
+public class InventoryObject : MonoBehaviour
+
 {
     public List<InventorySlot> container = new List<InventorySlot>();
     public void AddItem(ItemObject _item, int _amount)
