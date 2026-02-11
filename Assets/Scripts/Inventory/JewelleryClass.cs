@@ -7,7 +7,7 @@ public class JewelleryClass : ItemClass
     [Header("Jewellery")] //Data for jewellery 
     public JewelleryType jewelleryType; 
 
-    public enum jewelleryType
+    public enum JewelleryType
     {
         necklace, 
         ring,

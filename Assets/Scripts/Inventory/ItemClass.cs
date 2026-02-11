@@ -1,7 +1,7 @@
 using UnityEngine; 
 using System.Collections; 
 
-public abstract class ItemClass : ScriptableObject // Makes all ItemClass scripts become ScriptableObjects
+public abstract class ItemClass : ScriptableObject // Makes all ItemClass scripts become ScriptableObjectsss
 {
     [Header("Item")] //Data shared across items 
     //Public to access everywhere 

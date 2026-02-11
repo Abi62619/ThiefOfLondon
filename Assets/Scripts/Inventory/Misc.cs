@@ -4,7 +4,7 @@ using System.Collections;
 [CreateAssetMenu(fileName = "New Misc Class", menuName =  "Item/Misc")]
 public class MiscClass : ItemClass
 {
-    [Header("Miscellaneous")] //Data for misc s
+    //[Header("Miscellaneous")] //Data for misc s
 
     //What Object it is returning 
     public override ItemClass GetItem() {return this;}

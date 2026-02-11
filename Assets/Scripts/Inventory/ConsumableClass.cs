@@ -10,6 +10,6 @@ public class ConsumableClass : ItemClass
     //What Object it is returning 
     public override ItemClass GetItem() {return this;}
     public override JewelleryClass GetJewellery() {return null;}
-    public override MiscClass GetMisc() {return this;}
-    public override ConsumableClass GetConsumable() {return null;}
+    public override MiscClass GetMisc() {return null;}
+    public override ConsumableClass GetConsumable() {return this;}
 }
