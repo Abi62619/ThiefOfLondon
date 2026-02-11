@@ -1,100 +1,182 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerControllerNew : MonoBehaviour
+namespace MainPlayerController
 {
-    public InputActionAsset inputActionAsset;
-
-    private InputAction moveAction;
-    private InputAction jumpAction;
-
-    [Header("Movement")]
-    private Vector2 moveInput;
-    public float moveSpeed = 5f;
-    public float rotationSpeed = 10f;
-
-    [Header("Jump")]
-    [SerializeField] float jumpForce = 10;
-    [SerializeField] private Rigidbody rb;
-    private bool isGrounded = true; 
-
-    private void Start()
+        public class PlayerControlTryf : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-    }
+        public InputActionAsset inputActionAsset;
 
-    private void Update()
-    {
-        MovePlayer();
-        RotatePlayerTowardMovement();
-    }
+        private InputAction moveAction;
+        private InputAction jumpAction;
+        private InputAction lookAction;
 
-    private void OnEnable()
-    {
-        var actionMap = inputActionAsset.FindActionMap("Player");
-        moveAction = actionMap.FindAction("Move");
-        jumpAction = actionMap.FindAction("Jump");
+        public Vector2 moveInput;
+        public Vector2 lookInput;
 
-        moveAction.Enable();
-        jumpAction.Enable();
+        [Header("Movement Settings")]
+        public float moveSpeed = 5f;
+        public float jumpForce = 5f;
 
-        moveAction.performed += OnMove;
-        jumpAction.performed += OnJump;
-    }
-
-    private void OnDisable()
-    {
-        moveAction.performed -= OnMove;
-        moveAction.canceled -= OnMove;
-        jumpAction.performed -= OnJump;
-
-        moveAction.Disable();
-        jumpAction.Disable();
-    }
-
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-    }
-
-    private void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed && isGrounded) // context performed input triggered 
+        [Header("Mouse Look Settings")]
+        public float mouseSense = 2f;
+        public Transform playerCamera;
+        public float rotationX;
+        
+        private Rigidbody rb;
+        private bool isGrounded; 
+        
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
+            rb = GetComponent<Rigidbody>();
+
         }
-        Debug.Log("You Jumped");
-    }
-
-    private void MovePlayer()
-    {
-        Vector3 move = new Vector3(-moveInput.x, 0, -moveInput.y);
-
-        transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);
-    }
-
-    private void RotatePlayerTowardMovement()
-    {
-        if (moveInput.sqrMagnitude > 0.01f)
+        private void OnEnable()
         {
-            Vector3 direction = new Vector3(-moveInput.x, 0, -moveInput.y);
+            var actionMap = inputActionAsset.FindActionMap("Player");
+            moveAction = actionMap.FindAction("Move");
+            jumpAction = actionMap.FindAction("Jump");
+            lookAction = actionMap.FindAction("Look");
 
-            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            moveAction.Enable();
+            jumpAction.Enable();
+            lookAction.Enable();
 
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
+            jumpAction.performed += OnJump;
+        
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
+        private void OnDisable()
+        {
+    
+            jumpAction.performed -= OnJump;
+        
+
+            moveAction.Disable();
+            jumpAction.Disable();
+            lookAction.Disable();
+        }
+    
+
+        
+
+        private void OnJump(InputAction.CallbackContext context)
+        {
+        
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        }
+
+
+        // Update is called once per frame
+        void Update()
+        {
+        
+            lookInput = lookAction.ReadValue<Vector2>()*mouseSense;
+            rotationX -= lookInput.y;
+            rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+
+            playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+            transform.Rotate(Vector3.up * lookInput.x);
+
+        
+        }
+
+        private void FixedUpdate()
+        {
+
+            moveInput = moveAction.ReadValue<Vector2>();
+            Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
+            Vector3 targetVelocity = move * moveSpeed;
+            Vector3 velocity = rb.linearVelocity;
+            Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
+
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+
+        }
+
+        private void OnCollisionEnter(Collision collision)
         {
             isGrounded = true;
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            isGrounded = false;
+        }
+    }
+}
+
+namespace PlayerCrouch
+{
+    [RequireComponent(typeof(PlayerControlTryf))]
+
+    public class PlayerCrouch : MonoBehaviour
+    {
+        [Header("Crouch Settings")]
+        [SerializeField] private float crouchHeight = 1f; 
+        [SerializeField] private float standingHeight = 2f; 
+        private CapsuleCollider capsuleCollider; 
+        private bool isCrouching; 
+
+        [Header("Input Actions")]
+        public InputActionAsset inputActionAsset; 
+        private InputAction crouchAction; 
+
+        private void OnEnable()
+        {
+            //Debug.Log("Crouch can happen"); 
+
+            if (inputActionAsset == null)
+            {
+                //Debug.LogError("InputActionAsset NOT assigned!");
+                return;
+            }
+
+            var actionMap = inputActionAsset.FindActionMap("Player");
+            if (actionMap == null) return;
+
+            crouchAction = actionMap.FindAction("Crouch");
+            if (crouchAction == null) return;
+
+            crouchAction.Enable();
+            crouchAction.performed += OnCrouch;
+            crouchAction.canceled += OnCrouch;
+
+            //Debug.Log(crouchAction != null ? "Crouch action found" : "Crouch action MISSING");
+            //Debug.Log($"Action map found: {actionMap.name}");
+        }
+
+        private void OnDisable()
+        {
+            crouchAction.performed -= OnCrouch; 
+            crouchAction.canceled -= OnCrouch; 
+
+            crouchAction.Disable(); 
+        }
+
+        private void OnCrouch(InputAction.CallbackContext context)
+        {
+            //Debug.Log($"Crouch phase: {context.phase}");
+            isCrouching = context.ReadValueAsButton();
+        }
+
+        void Start()
+        {
+            capsuleCollider = GetComponent<CapsuleCollider>(); 
+            standingHeight = capsuleCollider.height;
+
+            /*if (capsuleCollider == null)
+            {
+                Debug.LogError("CapsuleCollider missing!");
+            }*/
+        }
+
+        void Update()
+        {
+            capsuleCollider.height = isCrouching ? crouchHeight : standingHeight;
         }
     }
 }
