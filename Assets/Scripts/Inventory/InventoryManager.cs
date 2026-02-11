@@ -4,14 +4,21 @@ using System.Collections.Generic;
 
 public class InventoryManager : MonoBehaviour
 {
-    public ItemClass itemToAdd; 
-    public ItemClass itemToRemove; 
+    [SerializeField] private GameObject slotHolder;
+    [SerializeField] private ItemClass itemToAdd; 
+    [SerializeField] private ItemClass itemToRemove; 
 
     // List in the inspector 
     public List <ItemClass> items = new List<ItemClass>(); 
+    private GameObject[] slots; 
 
     public void Start()
     {
+        slots = new GameObject[slotHolder.transform.childCount];
+        //set all the slots
+        for(int i = 0; i < slotHolder.transform.childCount; i++)
+            slots[i] = slotHolder.transform.GetChild(i).gameObject;
+
         Add(itemToAdd); 
         Remove(itemToRemove); 
     }
