@@ -44,8 +44,7 @@ public class PickPocketManger : MonoBehaviour
     private bool isPlaying = false; 
     private bool isGameEnded = false; 
 
-    [SerializeField] private Player player;
-    [SerializeField] private PlayerInventory playerInventory; 
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -190,7 +189,7 @@ public class PickPocketManger : MonoBehaviour
 
         if(success)
         {
-            GiveRewards();
+            //GiveRewards();
             Debug.Log("[PickPocket] Pickpocket successful");
         }
         else
@@ -230,7 +229,7 @@ public class PickPocketManger : MonoBehaviour
         return false;
     }
 
-    private void GiveRewards()
+    /*private void GiveRewards()
     {
         Debug.Log($"[PickPocket] player null? {player == null}");
 
@@ -259,7 +258,7 @@ public class PickPocketManger : MonoBehaviour
         }
 
         currentTarget.hasBeenPickpocketed = true;
-    }
+    }*/
 
 
     private void Failure()
