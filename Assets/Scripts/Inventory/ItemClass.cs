@@ -1,9 +1,9 @@
 using UnityEngine; 
 using System.Collections; 
 
-public abstract class ItemClass
+public abstract class ItemClass : ScriptableObject // Makes all ItemClass scripts become ScriptableObjects
 {
-    [Header("Item")]
+    [Header("Item")] //Data shared across items 
     //Public to access everywhere 
     public string ItemName; 
     public Sprite itemIcon; 
