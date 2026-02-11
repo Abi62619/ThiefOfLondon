@@ -142,10 +142,10 @@ TextureImporter:
       name: Steampunk_UI_Dialogue_1_0
       rect:
         serializedVersion: 2
-        x: 70
-        y: 586
-        width: 908
-        height: 412
+        x: 0
+        y: 0
+        width: 910
+        height: 1080
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
       name: Steampunk_UI_Dialogue_1_1
       rect:
         serializedVersion: 2
-        x: 1058
-        y: 246
-        width: 794
-        height: 570
+        x: 1010
+        y: 0
+        width: 910
+        height: 1080
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,28 +178,6 @@ TextureImporter:
       bones: []
       spriteID: 57bd9601ff34a65d0800000000000000
       internalID: -3068565433328477323
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Steampunk_UI_Dialogue_1_2
-      rect:
-        serializedVersion: 2
-        x: 44
-        y: 47
-        width: 946
-        height: 483
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 124, y: 233, z: 123, w: 155}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 405ba81cb39a9bdf0800000000000000
-      internalID: -1134045968912935372
       vertices: []
       indices: 
       edges: []
@@ -216,11 +194,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":910.0,"y":1080.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":100.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Steampunk_UI_Dialogue_1_0: 1018718896240728915
       Steampunk_UI_Dialogue_1_1: -3068565433328477323
-      Steampunk_UI_Dialogue_1_2: -1134045968912935372
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

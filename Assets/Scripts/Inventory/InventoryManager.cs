@@ -1,5 +1,6 @@
 using UnityEngine; 
 using System.Collections; 
+using System.Collections.Generic; 
 
 public class InventoryManager : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class InventoryManager : MonoBehaviour
     public ItemClass itemToRemove; 
 
     // List in the inspector 
-    public List<ItemClass> items = new List<ItemClass>(); 
+    public List <ItemClass> items = new List<ItemClass>(); 
 
     public void Start()
     {
@@ -18,12 +19,12 @@ public class InventoryManager : MonoBehaviour
     public void Add(ItemClass item)
     {
         items.Add(item); 
-        Debug("Added item to player inventory");
+        Debug.Log("Added item to player inventory");
     }
 
     public void Remove(ItemClass item)
     {
         items.Remove(item); 
-        Debug("Removed item from player inventory");
+        Debug.Log("Removed item from player inventory");
     }
 }

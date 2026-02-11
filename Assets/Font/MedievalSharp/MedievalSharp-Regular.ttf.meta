@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 45e85432e29350f4b8c1eec48fae66c4
+guid: 9317212043b762847987230b62aa3a1a
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Old London
+  - MedievalSharp
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
