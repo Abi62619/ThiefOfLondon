@@ -57,9 +57,9 @@ public class PlayerController : MonoBehaviour
     // How long the slide lasts
     [SerializeField] private float slideDuration = 0.8f;
 
-    // Private variables
-    private Rigidbody rb;
-    private CapsuleCollider cc;
+    [Header("PLayer Settings")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private CapsuleCollider cc;
 
     // Timer used to count down slide duration
     private float slideTimer;
