@@ -99,9 +99,17 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
+        //Tempapory Debugs
+        if(inputActionAsset == null)
+        {
+            Debug.LogError("InputActionAsset not assigned!"); 
+            return; 
+        }
+
         // Get the Player action map from the Input Action Asset
         var actionMap = inputActionAsset.FindActionMap("Player");
-
+        actionMap.Enable(); 
+        
         // Find each action by name
         moveAction = actionMap.FindAction("Move");
         jumpAction = actionMap.FindAction("Jump");
@@ -120,13 +128,6 @@ public class PlayerController : MonoBehaviour
         jumpAction.performed += OnJump;
         crouchAction.performed += OnCrouch;
         slideAction.performed += OnSlide;
-
-        //Tempapory Debugs
-        if(inputActionAsset == null)
-        {
-            Debug.LogError("InputActionAsset not assigned!"); 
-            return; 
-        }
 
         Debug.Log(crouchAction != null? "Crouch action found" : "Crouch action Missing"); 
         Debug.Log(slideAction != null? "Slide action found" : "Slide Action Missing"); 
