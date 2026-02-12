@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // Get references to Rigidbody and CapsuleCollider
+        // Get references 
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
 
@@ -120,6 +120,17 @@ public class PlayerController : MonoBehaviour
         jumpAction.performed += OnJump;
         crouchAction.performed += OnCrouch;
         slideAction.performed += OnSlide;
+
+        //Tempapory Debugs
+        if(inputActionAsset == null)
+        {
+            Debug.LogError("InputActionAsset not assigned!"); 
+            return; 
+        }
+
+        Debug.Log(crouchAction != null? "Crouch action found" : "Crouch action Missing"); 
+        Debug.Log(slideAction != null? "Slide action found" : "Slide Action Missing"); 
+        Debug.Log($"Action map found: {actionMap.name}"); 
     }
 
     void OnDisable()
@@ -201,6 +212,9 @@ public class PlayerController : MonoBehaviour
     {
         // Set crouch state based on button press
         isCrouching = context.ReadValueAsButton();
+
+        //temp debug 
+        Debug.Log($"Crouch phase: {context.phase}");
     }
 
     void CCcrouchHeight()
@@ -226,6 +240,9 @@ public class PlayerController : MonoBehaviour
             // Apply forward velocity boost
             rb.AddForce(transform.forward * slideForce, ForceMode.VelocityChange);
         }
+
+        //temp debug 
+        Debug.Log($"Slide phase: {context.phase}");
     }
 
     void Slide()
