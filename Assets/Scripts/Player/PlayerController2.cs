@@ -73,6 +73,9 @@ public class PlayerController : MonoBehaviour
     private bool isCrouching;
     private bool isSliding;
 
+    //Temporary 
+    Color color; 
+
     void Start()
     {
         // Get references 
@@ -81,6 +84,9 @@ public class PlayerController : MonoBehaviour
 
         // Store original standing height from collider
         standingHeight = cc.height;
+
+        //Temporary 
+        GetComponent<SpriteRenderer>().color = color.yellow; 
     }
 
     void Update()
@@ -156,7 +162,7 @@ public class PlayerController : MonoBehaviour
     // JUMP
     void OnJump(InputAction.CallbackContext context)
     {
-        if(isGrounded)
+        if(isGrounded())
         {
             // Apply upward force instantly
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
