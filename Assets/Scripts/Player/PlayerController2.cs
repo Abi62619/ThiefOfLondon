@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     private InputAction crouchAction;
     private InputAction slideAction;
 
+    [Header("Player Settings")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private CapsuleCollider cc;
+
     [Header("Movement Settings")]
 
     // Movement speed multiplier
@@ -30,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
     // Force applied when jumping
     [SerializeField] private float jumpForce = 5f;
+    // To make Grounded work 
+    [SerializeField] private LayerMask groundLayer; 
+    [SerializeField] private float groundCheckDistance = 0.2f;  
 
     [Header("Mouse Look Settings")]
 
@@ -56,10 +63,6 @@ public class PlayerController : MonoBehaviour
 
     // How long the slide lasts
     [SerializeField] private float slideDuration = 0.8f;
-
-    [Header("PLayer Settings")]
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private CapsuleCollider cc;
 
     // Timer used to count down slide duration
     private float slideTimer;
@@ -89,6 +92,9 @@ public class PlayerController : MonoBehaviour
 
         // Handle slide timer logic
         Slide();
+
+        // Handle grounded check 
+        CheckGrounded(); 
     }
 
     void FixedUpdate()
@@ -109,7 +115,7 @@ public class PlayerController : MonoBehaviour
         // Get the Player action map from the Input Action Asset
         var actionMap = inputActionAsset.FindActionMap("Player");
         actionMap.Enable(); 
-        
+    
         // Find each action by name
         moveAction = actionMap.FindAction("Move");
         jumpAction = actionMap.FindAction("Jump");
@@ -156,17 +162,15 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        // Assume grounded when colliding with something
-        isGrounded = true;
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        // No longer grounded when leaving collision
-        isGrounded = false;
-    }
+    void CheckGrounded()
+        {
+            isGrounded = Physics.Raycast(
+                transform.position, 
+                Vector3.down, 
+                cc.bounds.extents.y + groundCheckDistance, 
+                groundLayer 
+            );
+        }
 
     // PLAYER MOVEMENT
     void Movement()
