@@ -92,9 +92,6 @@ public class PlayerController : MonoBehaviour
 
         // Handle slide timer logic
         Slide();
-
-        // Handle grounded check 
-        CheckGrounded(); 
     }
 
     void FixedUpdate()
@@ -162,15 +159,11 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    void CheckGrounded()
-        {
-            isGrounded = Physics.Raycast(
-                transform.position, 
-                Vector3.down, 
-                cc.bounds.extents.y + groundCheckDistance, 
-                groundLayer 
-            );
-        }
+    void OnCollisionStay(Collision collision)
+    {
+        // Assume grounded when colliding with something
+        isGrounded = true;
+    }
 
     // PLAYER MOVEMENT
     void Movement()
