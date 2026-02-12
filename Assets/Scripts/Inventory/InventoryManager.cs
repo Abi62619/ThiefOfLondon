@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private GameObject slotHolder;
+   /* [SerializeField] private GameObject slotHolder;
     [SerializeField] private ItemClass itemToAdd; 
     [SerializeField] private ItemClass itemToRemove; 
 
@@ -14,7 +14,7 @@ public class InventoryManager : MonoBehaviour
 
     public void Start()
     {
-        slots = new GameObject[slotHolder.transform.childCount];
+        //slots = new GameObject[slotHolder.transform.childCount];
         //set all the slots
         for(int i = 0; i < slotHolder.transform.childCount; i++)
             slots[i] = slotHolder.transform.GetChild(i).gameObject;
@@ -33,5 +33,5 @@ public class InventoryManager : MonoBehaviour
     {
         items.Remove(item); 
         Debug.Log("Removed item from player inventory");
-    }
+    }*/
 }

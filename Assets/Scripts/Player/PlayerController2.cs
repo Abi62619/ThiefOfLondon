@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController2 : MonoBehaviour
 {
     [Header("Input Information")]
 
@@ -73,9 +73,6 @@ public class PlayerController : MonoBehaviour
     private bool isCrouching;
     private bool isSliding;
 
-    //Temporary 
-    Color color; 
-
     void Start()
     {
         // Get references 
@@ -84,9 +81,6 @@ public class PlayerController : MonoBehaviour
 
         // Store original standing height from collider
         standingHeight = cc.height;
-
-        //Temporary 
-        GetComponent<SpriteRenderer>().color = color.yellow; 
     }
 
     void Update()
@@ -99,6 +93,11 @@ public class PlayerController : MonoBehaviour
 
         // Handle slide timer logic
         Slide();
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            Debug.Log("Space works");
+        }
     }
 
     void FixedUpdate()
@@ -126,6 +125,8 @@ public class PlayerController : MonoBehaviour
         lookAction = actionMap.FindAction("Look");
         crouchAction = actionMap.FindAction("Crouch");
         slideAction = actionMap.FindAction("Slide");
+
+        Debug.Log(jumpAction);
 
         // Enable input actions
         moveAction.Enable();
@@ -162,31 +163,27 @@ public class PlayerController : MonoBehaviour
     // JUMP
     void OnJump(InputAction.CallbackContext context)
     {
-        if(Grounded())
+        Debug.Log("Jump pressed");
+
+        if (Grounded())
         {
-            // Apply upward force instantly
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            if(!isGrounded) return;
         }
-        Debugging(); 
     }
 
     bool Grounded()
     {
-        int LayerMask = 1 << 8; 
-        return Physics.Raycast(transform.position, new Vector3(0, -rayDistance, 0), rayDistance, LayerMask); 
+        float extraDistance = 0.05f;
+
+        Vector3 origin = transform.position;
+        float rayLength = (cc.height / 2f) + extraDistance;
+
+        Debug.DrawRay(origin, Vector3.down * rayLength, Color.red);
+
+        return Physics.Raycast(origin, Vector3.down, rayLength, groundLayer);
     }
 
-    void Debugging()
-    {
-        Debug.DrawRay(transform.position, new Vector3(0, -rayDistance, 0), color.yellow);
-    }
-
-    void OnCollisionStay(Collision collision)
-    {
-        // Assume grounded when colliding with something
-        isGrounded = true;
-    }
 
     // PLAYER MOVEMENT
     void Movement()
