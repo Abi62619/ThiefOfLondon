@@ -157,6 +157,7 @@ public class PlayerController : MonoBehaviour
     {
         // Apply upward force instantly
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if(!isGrounded) return;
     }
 
     void OnCollisionStay(Collision collision)
