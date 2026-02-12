@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     // To make Grounded work 
     [SerializeField] private LayerMask groundLayer; 
     [SerializeField] private float groundCheckDistance = 0.2f;  
+    [SerializeField] private float rayDistance = 0.2f;
 
     [Header("Mouse Look Settings")]
 
@@ -155,7 +156,7 @@ public class PlayerController : MonoBehaviour
     // JUMP
     void OnJump(InputAction.CallbackContext context)
     {
-        if(Grounded)
+        if(isGrounded)
         {
             // Apply upward force instantly
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -164,7 +165,7 @@ public class PlayerController : MonoBehaviour
         Debugging(); 
     }
 
-    bool Grounded()
+    bool isGrounded()
     {
         int LayerMask = 1 << 8; 
         return Physics.Raycast(transform.position, new Vector3(0, -rayDistance, 0), rayDistance, LayerMask); 
@@ -172,7 +173,7 @@ public class PlayerController : MonoBehaviour
 
     void Debugging()
     {
-        Debug.DrawRay(transform.position, new Vector3(0, -rayDistance, 0), PlayerController.yellow);
+        Debug.DrawRay(transform.position, new Vector3(0, -rayDistance, 0), color.yellow);
     }
 
     void OnCollisionStay(Collision collision)
