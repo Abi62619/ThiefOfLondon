@@ -155,9 +155,24 @@ public class PlayerController : MonoBehaviour
     // JUMP
     void OnJump(InputAction.CallbackContext context)
     {
-        // Apply upward force instantly
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        if(!isGrounded) return;
+        if(Grounded)
+        {
+            // Apply upward force instantly
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if(!isGrounded) return;
+        }
+        Debugging(); 
+    }
+
+    bool Grounded()
+    {
+        int LayerMask = 1 << 8; 
+        return Physics.Raycast(transform.position, new Vector3(0, -rayDistance, 0), rayDistance, LayerMask); 
+    }
+
+    void Debugging()
+    {
+        Debug.DrawRay(transform.position, new Vector3(0, -rayDistance, 0), PlayerController.yellow);
     }
 
     void OnCollisionStay(Collision collision)
