@@ -1,182 +1,284 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-namespace MainPlayerController
+public class PlayerController : MonoBehaviour
 {
-        public class PlayerControlTryf : MonoBehaviour
+    [Header("Input Information")]
+
+    // Reference to the Input System action asset
+    public InputActionAsset inputActionAsset;
+
+    // Stores current movement input 
+    public Vector2 moveInput;
+
+    // Stores current mouse look input
+    public Vector2 lookInput;
+
+    // INPUT ACTIONS
+    private InputAction moveAction;
+    private InputAction jumpAction;
+    private InputAction lookAction;
+    private InputAction crouchAction;
+    private InputAction slideAction;
+
+    [Header("Player Settings")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private CapsuleCollider cc;
+
+    [Header("Movement Settings")]
+
+    // Movement speed multiplier
+    [SerializeField] private float moveSpeed = 5f;
+
+    // Force applied when jumping
+    [SerializeField] private float jumpForce = 5f;
+    // To make Grounded work 
+    [SerializeField] private LayerMask groundLayer; 
+    [SerializeField] private float groundCheckDistance = 0.2f;  
+    [SerializeField] private float rayDistance = 0.2f;
+
+    [Header("Mouse Look Settings")]
+
+    // Mouse sensitivity
+    [SerializeField] private float mouseSpeed = 2f;
+
+    // Stores vertical camera rotation
+    [SerializeField] private float rotationX;
+
+    // Reference to camera transform
+    [SerializeField] private Transform playerCamera;
+
+    [Header("Crouch Settings")]
+
+    // Collider height while crouching
+    [SerializeField] private float crouchHeight = 1f;
+
+    // Collider height while standing
+    [SerializeField] private float standingHeight = 2f;
+
+    [Header("Slide Settings")]
+    // Extra forward force applied when slide starts
+    [SerializeField] private float slideForce = 10f;
+
+    // How long the slide lasts
+    [SerializeField] private float slideDuration = 0.8f;
+
+    // Timer used to count down slide duration
+    private float slideTimer;
+
+    // State flags
+    private bool isGrounded;
+    private bool isCrouching;
+    private bool isSliding;
+
+    //Temporary 
+    Color color; 
+
+    void Start()
     {
-        public InputActionAsset inputActionAsset;
+        // Get references 
+        rb = GetComponent<Rigidbody>();
+        cc = GetComponent<CapsuleCollider>();
 
-        private InputAction moveAction;
-        private InputAction jumpAction;
-        private InputAction lookAction;
+        // Store original standing height from collider
+        standingHeight = cc.height;
 
-        public Vector2 moveInput;
-        public Vector2 lookInput;
-
-        [Header("Movement Settings")]
-        public float moveSpeed = 5f;
-        public float jumpForce = 5f;
-
-        [Header("Mouse Look Settings")]
-        public float mouseSense = 2f;
-        public Transform playerCamera;
-        public float rotationX;
-        
-        private Rigidbody rb;
-        private bool isGrounded; 
-        
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-            rb = GetComponent<Rigidbody>();
-
-        }
-        private void OnEnable()
-        {
-            var actionMap = inputActionAsset.FindActionMap("Player");
-            moveAction = actionMap.FindAction("Move");
-            jumpAction = actionMap.FindAction("Jump");
-            lookAction = actionMap.FindAction("Look");
-
-            moveAction.Enable();
-            jumpAction.Enable();
-            lookAction.Enable();
-
-            jumpAction.performed += OnJump;
-        
-        }
-
-        private void OnDisable()
-        {
-    
-            jumpAction.performed -= OnJump;
-        
-
-            moveAction.Disable();
-            jumpAction.Disable();
-            lookAction.Disable();
-        }
-    
-
-        
-
-        private void OnJump(InputAction.CallbackContext context)
-        {
-        
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-        }
-
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-            lookInput = lookAction.ReadValue<Vector2>()*mouseSense;
-            rotationX -= lookInput.y;
-            rotationX = Mathf.Clamp(rotationX, -90f, 90f);
-
-            playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
-            transform.Rotate(Vector3.up * lookInput.x);
-
-        
-        }
-
-        private void FixedUpdate()
-        {
-
-            moveInput = moveAction.ReadValue<Vector2>();
-            Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
-            Vector3 targetVelocity = move * moveSpeed;
-            Vector3 velocity = rb.linearVelocity;
-            Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
-
-            rb.AddForce(velocityChange, ForceMode.VelocityChange);
-
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            isGrounded = true;
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            isGrounded = false;
-        }
+        //Temporary 
+        GetComponent<SpriteRenderer>().color = color.yellow; 
     }
-}
 
-namespace PlayerCrouch
-{
-    [RequireComponent(typeof(PlayerControlTryf))]
-
-    public class PlayerCrouch : MonoBehaviour
+    void Update()
     {
-        [Header("Crouch Settings")]
-        [SerializeField] private float crouchHeight = 1f; 
-        [SerializeField] private float standingHeight = 2f; 
-        private CapsuleCollider capsuleCollider; 
-        private bool isCrouching; 
+        // Handle camera rotation
+        MouseLook();
 
-        [Header("Input Actions")]
-        public InputActionAsset inputActionAsset; 
-        private InputAction crouchAction; 
+        // Adjust collider height based on crouch state
+        CCcrouchHeight();
 
-        private void OnEnable()
+        // Handle slide timer logic
+        Slide();
+    }
+
+    void FixedUpdate()
+    {
+        // Physics-based movement happens in FixedUpdate
+        Movement();
+    }
+
+    void OnEnable()
+    {
+        //Tempapory Debugs
+        if(inputActionAsset == null)
         {
-            //Debug.Log("Crouch can happen"); 
-
-            if (inputActionAsset == null)
-            {
-                //Debug.LogError("InputActionAsset NOT assigned!");
-                return;
-            }
-
-            var actionMap = inputActionAsset.FindActionMap("Player");
-            if (actionMap == null) return;
-
-            crouchAction = actionMap.FindAction("Crouch");
-            if (crouchAction == null) return;
-
-            crouchAction.Enable();
-            crouchAction.performed += OnCrouch;
-            crouchAction.canceled += OnCrouch;
-
-            //Debug.Log(crouchAction != null ? "Crouch action found" : "Crouch action MISSING");
-            //Debug.Log($"Action map found: {actionMap.name}");
+            Debug.LogError("InputActionAsset not assigned!"); 
+            return; 
         }
 
-        private void OnDisable()
-        {
-            crouchAction.performed -= OnCrouch; 
-            crouchAction.canceled -= OnCrouch; 
+        // Get the Player action map from the Input Action Asset
+        var actionMap = inputActionAsset.FindActionMap("Player");
+        actionMap.Enable(); 
+    
+        // Find each action by name
+        moveAction = actionMap.FindAction("Move");
+        jumpAction = actionMap.FindAction("Jump");
+        lookAction = actionMap.FindAction("Look");
+        crouchAction = actionMap.FindAction("Crouch");
+        slideAction = actionMap.FindAction("Slide");
 
-            crouchAction.Disable(); 
+        // Enable input actions
+        moveAction.Enable();
+        jumpAction.Enable();
+        lookAction.Enable();
+        crouchAction.Enable();
+        slideAction.Enable();
+
+        // Subscribe to input events
+        jumpAction.performed += OnJump;
+        crouchAction.performed += OnCrouch;
+        slideAction.performed += OnSlide;
+
+        Debug.Log(crouchAction != null? "Crouch action found" : "Crouch action Missing"); 
+        Debug.Log(slideAction != null? "Slide action found" : "Slide Action Missing"); 
+        Debug.Log($"Action map found: {actionMap.name}"); 
+    }
+
+    void OnDisable()
+    {
+        // Disable input actions
+        moveAction.Disable();
+        jumpAction.Disable();
+        lookAction.Disable();
+        crouchAction.Disable();
+        slideAction.Disable();
+
+        // Unsubscribe from input events
+        jumpAction.performed -= OnJump;
+        crouchAction.performed -= OnCrouch;
+        slideAction.performed -= OnSlide;
+    }
+
+    // JUMP
+    void OnJump(InputAction.CallbackContext context)
+    {
+        if(Grounded())
+        {
+            // Apply upward force instantly
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if(!isGrounded) return;
+        }
+        Debugging(); 
+    }
+
+    bool Grounded()
+    {
+        int LayerMask = 1 << 8; 
+        return Physics.Raycast(transform.position, new Vector3(0, -rayDistance, 0), rayDistance, LayerMask); 
+    }
+
+    void Debugging()
+    {
+        Debug.DrawRay(transform.position, new Vector3(0, -rayDistance, 0), color.yellow);
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        // Assume grounded when colliding with something
+        isGrounded = true;
+    }
+
+    // PLAYER MOVEMENT
+    void Movement()
+    {
+        // Read movement input (Vector2 from input system)
+        moveInput = moveAction.ReadValue<Vector2>();
+
+        // Convert input into world-space movement direction
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
+
+        // Desired movement velocity
+        Vector3 targetVelocity = move * moveSpeed;
+
+        // Current rigidbody velocity
+        Vector3 velocity = rb.linearVelocity;
+
+        // Calculate difference between desired and current velocity (ignore vertical)
+        Vector3 velocityChange = targetVelocity - new Vector3(velocity.x, 0, velocity.z);
+
+        // Apply instant velocity change for responsive movement
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+    }
+
+    void MouseLook()
+    {
+        // Read mouse input and apply sensitivity
+        lookInput = lookAction.ReadValue<Vector2>() * mouseSpeed;
+
+        // Vertical rotation (look up/down)
+        rotationX -= lookInput.y;
+
+        // Limit vertical camera angle
+        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+
+        // Apply vertical rotation to camera
+        playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+
+        // Rotate player horizontally (turn left/right)
+        transform.Rotate(Vector3.up * lookInput.x);
+    }
+
+    // CROUCH
+    void OnCrouch(InputAction.CallbackContext context)
+    {
+        // Set crouch state based on button press
+        isCrouching = context.ReadValueAsButton();
+
+        //temp debug 
+        Debug.Log($"Crouch phase: {context.phase}");
+    }
+
+    void CCcrouchHeight()
+    {
+        // Change collider height depending on crouch state
+        cc.height = isCrouching ? crouchHeight : standingHeight;
+    }
+
+    // SLIDE
+    void OnSlide(InputAction.CallbackContext context)
+    {
+        // Check for slide start conditions
+        if(context.performed && isGrounded && moveInput.y > 0)
+        {
+            isSliding = true;
+
+            // Start slide timer
+            slideTimer = slideDuration;
+
+            // Force crouch during slide
+            isCrouching = true;
+
+            // Apply forward velocity boost
+            rb.AddForce(transform.forward * slideForce, ForceMode.VelocityChange);
         }
 
-        private void OnCrouch(InputAction.CallbackContext context)
-        {
-            //Debug.Log($"Crouch phase: {context.phase}");
-            isCrouching = context.ReadValueAsButton();
-        }
+        //temp debug 
+        Debug.Log($"Slide phase: {context.phase}");
+    }
 
-        void Start()
-        {
-            capsuleCollider = GetComponent<CapsuleCollider>(); 
-            standingHeight = capsuleCollider.height;
+    void Slide()
+    {
+        // If not sliding, exit
+        if(!isSliding) return;
 
-            /*if (capsuleCollider == null)
-            {
-                Debug.LogError("CapsuleCollider missing!");
-            }*/
-        }
+        // Reduce timer each frame
+        slideTimer -= Time.deltaTime;
 
-        void Update()
+        // End slide when timer reaches zero
+        if(slideTimer <= 0)
         {
-            capsuleCollider.height = isCrouching ? crouchHeight : standingHeight;
+            isSliding = false;
+            isCrouching = false;
         }
     }
 }
