@@ -31,13 +31,21 @@ public class InventoryManager : MonoBehaviour
         {
             try
             {
+                //Slot images 
                 slots[i].transform.GetChild(0).GetComponent<Image>().sprite = items[i].itemIcon; 
                 slots[i].transform.GetChild(0).GetComponent<Image>().enabled = true; 
+
+                //slot text 
+                slots[i].transform.GetChild(1).GetComponent<Text>().text = "0";
             }
             catch
             {
+                //slot images 
                 slots[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
                 slots[i].transform.GetChild(0).GetComponent<Image>().enabled = false; 
+
+                //slot text 
+                slots[i].transform.GetChild(1).GetComponent<Text>().text = "";
             }
         }
     }
