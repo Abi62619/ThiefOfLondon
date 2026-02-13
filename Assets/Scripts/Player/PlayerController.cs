@@ -46,10 +46,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private float slideTimer;
     [HideInInspector] private float startYScale;
 
+    [Header("Animation Settings")]
+    [SerializeField] private Animator anim; 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
+        anim = GetComponent<Animator>();
 
         standingHeight = cc.height;
         startYScale = playerObj.localScale.y;
@@ -236,5 +239,12 @@ public class PlayerController : MonoBehaviour
 
         playerObj.localScale =
             new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
+    }
+
+    //================== ANIMATION =================
+    void UpdateAnimation()
+    {
+        float speed = moveInput.magnitude;
+        anim.SetFloat("Speed", speed);
     }
 }
