@@ -155,12 +155,12 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    private OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         isGrounded = true; 
     }
 
-    private OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
     }
