@@ -153,19 +153,20 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Jump");
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-        isGrounded = false; 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        isGrounded = true; 
+        if(collision.gameObject.compareTag("Ground"))
+        {
+            isGrounded = true; 
+        }
     }
 
-    /*private void OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
-    }*/
+    }
 
     // ================= CROUCH =================
 
