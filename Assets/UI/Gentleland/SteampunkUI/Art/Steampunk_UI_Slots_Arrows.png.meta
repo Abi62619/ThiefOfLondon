@@ -190,12 +190,12 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 787
-        width: 350
-        height: 280
+        x: 0
+        y: 848
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -212,20 +212,64 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_1
       rect:
         serializedVersion: 2
-        x: 359
-        y: 795
-        width: 350
-        height: 280
+        x: 274
+        y: 848
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b05ab0a4a4c97c50800000000000000
+      spriteID: adf0899da163d8241827cdf85ee0cc3f
       internalID: 6663573335021605044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_2
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 848
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 459f0ab302d73134cad213cc8f16260a
+      internalID: 1462669244351901227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_3
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 848
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c993725ed910ab438527594c5ce3b8c
+      internalID: -6405063604575625559
       vertices: []
       indices: 
       edges: []
@@ -234,19 +278,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_4
       rect:
         serializedVersion: 2
-        x: 791
-        y: 757
-        width: 302
-        height: 244
+        x: 1096
+        y: 848
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92b3ec4cdd1bf3e40800000000000000
+      spriteID: 30e7f0c575b9f6a4eaf633801fd4bff4
       internalID: 5638420824538889001
       vertices: []
       indices: 
@@ -256,19 +300,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_5
       rect:
         serializedVersion: 2
-        x: 1115
-        y: 761
-        width: 302
-        height: 244
+        x: 1370
+        y: 848
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6105c21f6bb3a77e0800000000000000
+      spriteID: 9825da0af2b51da4a837f0f3f34d0651
       internalID: -1767034246873198570
       vertices: []
       indices: 
@@ -278,108 +322,20 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_6
       rect:
         serializedVersion: 2
-        x: 1457
-        y: 761
-        width: 302
-        height: 244
+        x: 1644
+        y: 848
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9faff6f762772b00800000000000000
+      spriteID: 67dabf9b74fb34d4494dc4dfc79249ce
       internalID: 803736849360072603
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Steampunk_UI_Slots_Arrows_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 514
-        width: 350
-        height: 280
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9ae9c7d4694ac17a0800000000000000
-      internalID: -6405063604575625559
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Steampunk_UI_Slots_Arrows_2
-      rect:
-        serializedVersion: 2
-        x: 365
-        y: 507
-        width: 350
-        height: 280
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b2eeb7d9de17c4410800000000000000
-      internalID: 1462669244351901227
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Steampunk_UI_Slots_Arrows_18
-      rect:
-        serializedVersion: 2
-        x: 828
-        y: 314
-        width: 302
-        height: 302
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 572f274e66a579c80800000000000000
-      internalID: -8316078788950429067
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Steampunk_UI_Slots_Arrows_17
-      rect:
-        serializedVersion: 2
-        x: 1151
-        y: 323
-        width: 302
-        height: 302
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4c3b8937ca4e280a0800000000000000
-      internalID: -6880685851343801404
       vertices: []
       indices: 
       edges: []
@@ -388,19 +344,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_7
       rect:
         serializedVersion: 2
-        x: 1516
-        y: 466
-        width: 302
-        height: 244
+        x: 0
+        y: 566
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6cad783b3c35bb660800000000000000
+      spriteID: 36a359d6cbfd0224f93bd1229d8a1d0f
       internalID: 7402602512509295302
       vertices: []
       indices: 
@@ -410,19 +366,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_8
       rect:
         serializedVersion: 2
-        x: 20
-        y: 275
-        width: 237
-        height: 206
+        x: 274
+        y: 566
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 27, y: 27, z: 30, w: 29}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12056b4d4a28efab0800000000000000
+      spriteID: 08ad908976929c2428082086b0b89461
       internalID: -4972393294115483615
       vertices: []
       indices: 
@@ -432,19 +388,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_9
       rect:
         serializedVersion: 2
-        x: 318
-        y: 286
-        width: 204
-        height: 179
+        x: 548
+        y: 566
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 16, y: 18, z: 19, w: 17}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f055e9e7097719e30800000000000000
+      spriteID: ad17f9b953d6db64bbb5c50fb22618d8
       internalID: 4508516164457878799
       vertices: []
       indices: 
@@ -454,64 +410,20 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_10
       rect:
         serializedVersion: 2
-        x: 558
-        y: 287
-        width: 208
-        height: 178
+        x: 822
+        y: 566
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ab7dc4f4b4e66a10800000000000000
+      spriteID: 5a18ec7f0c0a3ed40b860bcfeed8615e
       internalID: 1902459358462966696
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Steampunk_UI_Slots_Arrows_15
-      rect:
-        serializedVersion: 2
-        x: 1225
-        y: 15
-        width: 302
-        height: 302
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3e6c139c43fbed830800000000000000
-      internalID: 4097922944388417251
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Steampunk_UI_Slots_Arrows_16
-      rect:
-        serializedVersion: 2
-        x: 1560
-        y: 15
-        width: 302
-        height: 302
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f8ad2da7b202cdd70800000000000000
-      internalID: 9069159120733657743
       vertices: []
       indices: 
       edges: []
@@ -520,19 +432,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_11
       rect:
         serializedVersion: 2
-        x: 11
-        y: 18
-        width: 271
-        height: 208
+        x: 1096
+        y: 566
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3c6695d41e2828b0800000000000000
+      spriteID: 2cd51577fe3fe0b4eb953e774e136e67
       internalID: -5176837104644756421
       vertices: []
       indices: 
@@ -542,19 +454,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_12
       rect:
         serializedVersion: 2
-        x: 332
-        y: 27
-        width: 246
-        height: 186
+        x: 1370
+        y: 566
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1290c022eff7c280800000000000000
+      spriteID: d2d89ec8d07f4d846a6b0cb56e85614e
       internalID: -9022961981736316390
       vertices: []
       indices: 
@@ -564,19 +476,19 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_13
       rect:
         serializedVersion: 2
-        x: 652
-        y: 11
-        width: 261
-        height: 235
+        x: 1644
+        y: 566
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6c891340f020af80800000000000000
+      spriteID: 0c7d7a70c47cb0841ae4ec2fb2a15504
       internalID: -8097435913722164118
       vertices: []
       indices: 
@@ -586,20 +498,306 @@ TextureImporter:
       name: Steampunk_UI_Slots_Arrows_14
       rect:
         serializedVersion: 2
-        x: 964
-        y: 16
-        width: 236
-        height: 215
+        x: 0
+        y: 284
+        width: 274
+        height: 232
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 245ba437fd07e24a0800000000000000
+      spriteID: 8ac2acfe58d27c647b0ebe977aee1729
       internalID: -6616226697546386110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_15
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 284
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 317ba355b78219a4ba8fb1cdd2d76634
+      internalID: 4097922944388417251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_16
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 284
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9b084f62abaaa04abf5281a010dfa5f
+      internalID: 9069159120733657743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_17
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 284
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a0bb7fdd68b259468d23a4862781a46
+      internalID: -6880685851343801404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_18
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 284
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 751382f2d7fe77741a1b70326d76834c
+      internalID: -8316078788950429067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_19
+      rect:
+        serializedVersion: 2
+        x: 1370
+        y: 284
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c55a9a2fdd900014c81f669e2766d1d2
+      internalID: -2073614321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_20
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 284
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 118929ad7cb55514198d674c701e17a8
+      internalID: -677869600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a4bb3ccb3a76d14ab88f1b55a7d50f6
+      internalID: -860055719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_22
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 2
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0fdb2fca22e90e41885a829c4d0c431
+      internalID: 1040425224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_23
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03be2b331cbea294c845e29d8bf081cf
+      internalID: -1532710395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_24
+      rect:
+        serializedVersion: 2
+        x: 822
+        y: 2
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de23c8f0a0c90d04486a6e9c426560b6
+      internalID: -175544093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_25
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 2
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2a86008dacbdf647a0a3d800d632a80
+      internalID: -1796407868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_26
+      rect:
+        serializedVersion: 2
+        x: 1370
+        y: 2
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0ebd772aa970c942beccc61294cd7ff
+      internalID: -1315923543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Steampunk_UI_Slots_Arrows_27
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 2
+        width: 274
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efee8fc70b39d0d4a93c5a61fa47e869
+      internalID: 1713429851
       vertices: []
       indices: 
       edges: []
@@ -616,7 +814,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":4.0},"gridSpriteSize":{"x":274.0,"y":232.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":50.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Steampunk_UI_Slots_Arrows_0: 3294153589612204990
       Steampunk_UI_Slots_Arrows_1: 6663573335021605044
@@ -629,7 +829,16 @@ TextureImporter:
       Steampunk_UI_Slots_Arrows_16: 9069159120733657743
       Steampunk_UI_Slots_Arrows_17: -6880685851343801404
       Steampunk_UI_Slots_Arrows_18: -8316078788950429067
+      Steampunk_UI_Slots_Arrows_19: -2073614321
       Steampunk_UI_Slots_Arrows_2: 1462669244351901227
+      Steampunk_UI_Slots_Arrows_20: -677869600
+      Steampunk_UI_Slots_Arrows_21: -860055719
+      Steampunk_UI_Slots_Arrows_22: 1040425224
+      Steampunk_UI_Slots_Arrows_23: -1532710395
+      Steampunk_UI_Slots_Arrows_24: -175544093
+      Steampunk_UI_Slots_Arrows_25: -1796407868
+      Steampunk_UI_Slots_Arrows_26: -1315923543
+      Steampunk_UI_Slots_Arrows_27: 1713429851
       Steampunk_UI_Slots_Arrows_3: -6405063604575625559
       Steampunk_UI_Slots_Arrows_4: 5638420824538889001
       Steampunk_UI_Slots_Arrows_5: -1767034246873198570
