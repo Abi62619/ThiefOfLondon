@@ -152,9 +152,13 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("Jump");
+        if (!isGrounded) return;
+
+        Debug.Log("Jump working"); 
+
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
