@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Synty.AnimationBaseLocomotion.Samples;
 
 public class PlayerController : MonoBehaviour
 {
@@ -46,8 +47,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private float slideTimer;
     [HideInInspector] private float startYScale;
 
-    [Header("Animation Settings")]
-    [SerializeField] private Animator anim; 
+    //Animation Settings 
+    [HideInInspector] private Animator anim; 
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -62,7 +64,8 @@ public class PlayerController : MonoBehaviour
     {
         MouseLook();
         CCHeight();
-        HandleSlide();
+        HandleSlide();  
+        UpdateAnimations(); 
     }
 
     void FixedUpdate()
@@ -160,6 +163,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Jump working"); 
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        anim.SetTrigger("Jump"); 
     }
 
 
@@ -242,9 +247,13 @@ public class PlayerController : MonoBehaviour
     }
 
     //================== ANIMATION =================
-    void UpdateAnimation()
+    void UpdateAnimations()
     {
-        float speed = moveInput.magnitude;
-        anim.SetFloat("Speed", speed);
+        bool isMoving = moveInput.magnitude > 0.1f; 
+
+        anim.SetBool("isWalking", isMoving && isGrounded && !isSliding); 
+        anim.SetBool("isGrounded", isGrounded); 
+        anim.SetBool("isCrouching", isCrouching); 
+        anim.SetBool("isSliding", isSliding); 
     }
 }
