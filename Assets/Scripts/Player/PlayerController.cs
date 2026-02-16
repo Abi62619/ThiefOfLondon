@@ -137,6 +137,8 @@ public class PlayerController : MonoBehaviour
             targetVelocity - new Vector3(velocity.x, 0, velocity.z);
 
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
+
+        anim.SetFloat("speed", rb.linearVelocity.magnitude);        
     }
 
     // ================= MOUSE LOOK =================
@@ -164,15 +166,16 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        anim.SetTrigger("Jump"); 
+        anim.SetBool("isJumping", true); 
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true; 
+            isGrounded = true;
+            anim.SetBool("isJumping", false);
         }
     }
 
@@ -249,11 +252,11 @@ public class PlayerController : MonoBehaviour
     //================== ANIMATION =================
     void UpdateAnimations()
     {
-        bool isMoving = moveInput.magnitude > 0.1f; 
+        bool isMoving = moveInput.magnitude > 0.1f;
 
-        anim.SetBool("isWalking", isMoving && isGrounded && !isSliding); 
-        anim.SetBool("isGrounded", isGrounded); 
-        anim.SetBool("isCrouching", isCrouching); 
-        anim.SetBool("isSliding", isSliding); 
+        anim.SetFloat("speed", moveInput.magnitude);
+        anim.SetBool("isGrounded", isGrounded);
+        anim.SetBool("isCrouching", isCrouching);
+        anim.SetBool("isSliding", isSliding);
     }
 }
