@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private float rotationX;
 
     [Header("Crouch Settings")]
-    [SerializeField] private float crouchHeight = 1f;
+    [SerializeField] private float crouchHeight = 2f;
     [HideInInspector] private float standingHeight;
     [HideInInspector] private bool isCrouching;
 
@@ -48,8 +48,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private float startYScale;
 
     [Header("Animation Settings")] 
-    [HideInInspector] private Animator playerAnim; 
-    [SerializeField] private float idleTimeBeforeStop = 2f; 
+    [HideInInspector] private Animator playerAnim;
+    [SerializeField] private float idleTimeBeforeStop = 0f;
+       
     [HideInInspector] private float idleTimer; 
 
     void Start()
@@ -149,7 +150,7 @@ public class PlayerController : MonoBehaviour
         {
             idleTimer += Time.deltaTime;
 
-            if (idleTimer >= idleTimeBeforeStop)
+            if (idleTimer <= idleTimeBeforeStop)
             {
                 playerAnim.SetBool("Walking", false);
             }
