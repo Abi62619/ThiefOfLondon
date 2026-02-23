@@ -48,13 +48,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private float startYScale;
 
     //Animation Settings 
-    [HideInInspector] private Animator anim; 
+    [HideInInspector] private Animator playerAnim; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
-        anim = GetComponent<Animator>();
+        playerAnim = GetComponent<Animator>(); 
 
         standingHeight = cc.height;
         startYScale = playerObj.localScale.y;
@@ -136,9 +136,9 @@ public class PlayerController : MonoBehaviour
         Vector3 velocityChange =
             targetVelocity - new Vector3(velocity.x, 0, velocity.z);
 
-        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);   
 
-        anim.SetFloat("speed", rb.linearVelocity.magnitude);        
+        playerAnim.SetBool("Walking", true); 
     }
 
     // ================= MOUSE LOOK =================
@@ -166,7 +166,8 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        anim.SetBool("isJumping", true); 
+
+        playerAnim.SetBool("Jump", true); 
     }
 
 
@@ -175,7 +176,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            anim.SetBool("isJumping", false);
         }
     }
 
@@ -189,6 +189,8 @@ public class PlayerController : MonoBehaviour
     void OnCrouch(InputAction.CallbackContext context)
     {
         isCrouching = context.ReadValueAsButton();
+
+        playerAnim.SetBool("Crouch", true); 
     }
 
     void CCHeight()
@@ -202,6 +204,8 @@ public class PlayerController : MonoBehaviour
     {
         if (moveInput != Vector2.zero)
             StartSlide();
+
+        playerAnim.SetBool("Slide"); 
     }
 
     void OnSlideStop(InputAction.CallbackContext context)
@@ -247,16 +251,5 @@ public class PlayerController : MonoBehaviour
 
         playerObj.localScale =
             new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
-    }
-
-    //================== ANIMATION =================
-    void UpdateAnimations()
-    {
-        bool isMoving = moveInput.magnitude > 0.1f;
-
-        anim.SetFloat("speed", moveInput.magnitude);
-        anim.SetBool("isGrounded", isGrounded);
-        anim.SetBool("isCrouching", isCrouching);
-        anim.SetBool("isSliding", isSliding);
     }
 }
