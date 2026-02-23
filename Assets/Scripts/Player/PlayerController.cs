@@ -47,8 +47,10 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private float slideTimer;
     [HideInInspector] private float startYScale;
 
-    //Animation Settings 
+    [Header("Animation Settings")] 
     [HideInInspector] private Animator playerAnim; 
+    [SerializeField] private float idleTimeBeforeStop = 2f; 
+    [HideInInspector] private float idleTimer; 
 
     void Start()
     {
@@ -126,18 +128,32 @@ public class PlayerController : MonoBehaviour
         moveInput = moveAction.ReadValue<Vector2>();
 
         Vector3 move = orientation.forward * moveInput.y +
-                       orientation.right * moveInput.x;
+                    orientation.right * moveInput.x;
 
         Vector3 targetVelocity = move * moveSpeed;
-
         Vector3 velocity = rb.linearVelocity;
 
         Vector3 velocityChange =
             targetVelocity - new Vector3(velocity.x, 0, velocity.z);
 
-        rb.AddForce(velocityChange, ForceMode.VelocityChange);   
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);
 
-        playerAnim.SetBool("Walking", true); 
+        // ===== ANIMATION LOGIC =====
+
+        if (moveInput != Vector2.zero)
+        {
+            playerAnim.SetBool("Walking", true);
+            idleTimer = 0f; // reset timer when moving
+        }
+        else
+        {
+            idleTimer += Time.deltaTime;
+
+            if (idleTimer >= idleTimeBeforeStop)
+            {
+                playerAnim.SetBool("Walking", false);
+            }
+        }
     }
 
     // ================= MOUSE LOOK =================
@@ -165,7 +181,6 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-
         playerAnim.SetBool("Jump", true); 
     }
 
@@ -175,6 +190,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            playerAnim.SetBool("Jump", false); 
         }
     }
 
@@ -189,7 +205,7 @@ public class PlayerController : MonoBehaviour
     {
         isCrouching = context.ReadValueAsButton();
 
-        playerAnim.SetBool("Crouch", true); 
+        playerAnim.SetBool("Crouch", isCrouching); 
     }
 
     void CCHeight()
