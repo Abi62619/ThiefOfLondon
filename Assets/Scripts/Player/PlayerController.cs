@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
         MouseLook();
         CCHeight();
         HandleSlide();  
-        UpdateAnimations(); 
     }
 
     void FixedUpdate()
@@ -205,7 +204,7 @@ public class PlayerController : MonoBehaviour
         if (moveInput != Vector2.zero)
             StartSlide();
 
-        playerAnim.SetBool("Slide"); 
+        //playerAnim.SetBool("Slide"); 
     }
 
     void OnSlideStop(InputAction.CallbackContext context)
