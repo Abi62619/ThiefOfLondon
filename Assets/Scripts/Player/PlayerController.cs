@@ -188,6 +188,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(IdleJumpRoutine());
     }
 
+    //hjk
     IEnumerator IdleJumpRoutine()
     {
         playerAnim.SetBool("IdleJump", true);
