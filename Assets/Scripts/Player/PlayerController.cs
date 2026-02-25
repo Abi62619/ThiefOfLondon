@@ -182,10 +182,22 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        StartCoroutine(JumpRoutine()); 
+        StartCoroutine(IdleJumpRoutine()); 
+        StartCoroutine(WalkingJumpRoutine()); 
     }
 
-    IEnumerator JumpRoutine()
+    IEnumerator IdleJumpRoutine()
+    {
+        playerAnim.SetBool("IdleJump", true); 
+
+        yield return new WaitForSeconds(
+            playerAnim.GetCurrentAnimatorStateInfo(0).length
+        );
+
+        playerAnim.SetBool("IdleDown", true); 
+    }
+
+    IEnumerator WalkingJumpRoutine()
     {
          playerAnim.SetBool("Jump", true); 
 
@@ -218,6 +230,7 @@ public class PlayerController : MonoBehaviour
         isCrouching = context.ReadValueAsButton();
 
         playerAnim.SetBool("Crouch", isCrouching); 
+        playerAnim.SetBool("IdleCrouch", isCrouching); 
     }
 
     void CCHeight()
