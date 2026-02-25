@@ -182,13 +182,20 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        playerAnim.SetBool("Jump", true); 
-        if(playerAnim(SetBool("Jump", true)))
-        {
-            playerAnim(SetBool("JumpDown", true)); 
-        }
+        StartCoroutine(JumpRoutine()); 
     }
 
+    IEnumerator JumpRoutine()
+    {
+         playerAnim.SetBool("Jump", true); 
+
+         //wait for the length of current animation 
+         yield return new WaitForSeconds(
+            playerAnim.GetCurrentAnimatorStateInfo(0).length
+         ); 
+
+         playerAnim.SetBool("JumpDown", true); 
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
