@@ -182,19 +182,20 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        StartCoroutine(IdleJumpRoutine()); 
-        StartCoroutine(WalkingJumpRoutine()); 
+        if (isMoving)
+            StartCoroutine(WalkingJumpRoutine());
+        else
+            StartCoroutine(IdleJumpRoutine());
     }
 
     IEnumerator IdleJumpRoutine()
     {
-        playerAnim.SetBool("IdleJump", true); 
+        playerAnim.SetBool("IdleJump", true);
 
-        yield return new WaitForSeconds(
-            playerAnim.GetCurrentAnimatorStateInfo(0).length
-        );
+        yield return new WaitForSeconds(0.5f); // match jump anim length
 
-        playerAnim.SetBool("IdleDown", true); 
+        playerAnim.SetBool("IdleJump", false);
+        playerAnim.SetBool("IdleDown", true);
     }
 
     IEnumerator WalkingJumpRoutine()
