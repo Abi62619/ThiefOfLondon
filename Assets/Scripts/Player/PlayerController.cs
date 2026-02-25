@@ -183,6 +183,10 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
         playerAnim.SetBool("Jump", true); 
+        if(playerAnim(SetBool("Jump", true)))
+        {
+            playerAnim(SetBool("JumpDown", true)); 
+        }
     }
 
 
