@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        if (isMoving)
+        if (moveInput != Vector2.zero)
             StartCoroutine(WalkingJumpRoutine());
         else
             StartCoroutine(IdleJumpRoutine());
