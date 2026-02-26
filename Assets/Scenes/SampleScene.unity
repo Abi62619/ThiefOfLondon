@@ -359,6 +359,7 @@ MonoBehaviour:
   playerCamera: {fileID: 330585546}
   moveInput: {x: 0, y: 0}
   moveSpeed: 6
+  sprintSpeed: 30
   jumpForce: 5
   mouseSpeed: 2
   lookInput: {x: 0, y: 0}

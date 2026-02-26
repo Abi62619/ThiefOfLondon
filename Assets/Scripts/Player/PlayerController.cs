@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private InputAction lookAction;
     private InputAction crouchAction;
     private InputAction slideAction;
+    private InputAction sprintAction; 
 
     [Header("Player Settings")]
     [SerializeField] private Rigidbody rb;
@@ -24,13 +25,15 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private Vector2 moveInput;
     [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float sprintSpeed = 10f; 
+    [HideInInspector] private bool isSprinting; 
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 5f; 
     [HideInInspector] private bool isGrounded; 
 
     [Header("Mouse Look Settings")]
-    [SerializeField] private float mouseSpeed = 2f;
+    [SerializeField] private float mouseSpeed = 1f;
     [SerializeField] private Vector2 lookInput;
     [HideInInspector] private float rotationX;
 
@@ -50,7 +53,7 @@ public class PlayerController : MonoBehaviour
     [Header("Animation Settings")] 
     [HideInInspector] private Animator playerAnim;
     [SerializeField] private float idleTimeBeforeStop = 0f;
-       
+    
     [HideInInspector] private float idleTimer; 
 
     void Start()
@@ -89,6 +92,7 @@ public class PlayerController : MonoBehaviour
         lookAction = actionMap.FindAction("Look");
         crouchAction = actionMap.FindAction("Crouch");
         slideAction = actionMap.FindAction("Slide");
+        sprintAction = actionMap.FindAction("Sprint"); 
 
         actionMap.Enable();
 
@@ -97,14 +101,22 @@ public class PlayerController : MonoBehaviour
         lookAction.Enable(); 
         crouchAction.Enable(); 
         slideAction.Enable(); 
+        sprintAction.Enable(); 
 
+        // jump start 
         jumpAction.performed += OnJump;
+
+        //crouch start + stop 
         crouchAction.performed += OnCrouch;
         crouchAction.canceled += OnCrouch; 
 
         // slide start + stop
         slideAction.started += OnSlideStart;
         slideAction.canceled += OnSlideStop;
+
+        // sprint start + stop 
+        sprintAction.performed += OnSprint; 
+        sprintAction.canceled += OnSprint; 
     }
 
     void OnDisable()
@@ -114,12 +126,22 @@ public class PlayerController : MonoBehaviour
         lookAction.Disable();
         crouchAction.Disable(); 
         slideAction.Disable(); 
+        sprintAction.Disable(); 
 
+        // jump start 
         jumpAction.performed -= OnJump;
+
+        //crouch start + stop 
         crouchAction.performed -= OnCrouch;
         crouchAction.canceled -= OnCrouch; 
+
+        // slide start + stop
         slideAction.started -= OnSlideStart;
         slideAction.canceled -= OnSlideStop;
+
+        // sprint start + stop 
+        sprintAction.performed -= OnSprint; 
+        sprintAction.canceled -= OnSprint; 
     }
 
     // ================= MOVEMENT =================
@@ -131,7 +153,9 @@ public class PlayerController : MonoBehaviour
         Vector3 move = orientation.forward * moveInput.y +
                     orientation.right * moveInput.x;
 
-        Vector3 targetVelocity = move * moveSpeed;
+        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
+        Vector3 targetVelocity = move * currentSpeed;
+
         Vector3 velocity = rb.linearVelocity;
 
         Vector3 velocityChange =
@@ -153,6 +177,29 @@ public class PlayerController : MonoBehaviour
             if (idleTimer <= idleTimeBeforeStop)
             {
                 playerAnim.SetBool("Walking", false);
+            }
+        }
+    }
+
+    void OnSprint(InputAction.CallbackContext context)
+    {
+        isSprinting = context.started || context.performed; 
+        //Debug.Log("Sprinting: " + isSprinting);
+
+        // ===== ANIMATION LOGIC =====
+
+        if (moveInput != Vector2.zero)
+        {
+            playerAnim.SetBool("Sprint", true);
+            idleTimer = 0f; // reset timer when moving
+        }
+        else
+        {
+            idleTimer += Time.deltaTime;
+
+            if (idleTimer <= idleTimeBeforeStop)
+            {
+                playerAnim.SetBool("Sprint", false);
             }
         }
     }
@@ -201,14 +248,15 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator WalkingJumpRoutine()
     {
-         playerAnim.SetBool("Jump", true); 
+        playerAnim.SetBool("Jump", true); 
 
          //wait for the length of current animation 
-         yield return new WaitForSeconds(
+        yield return new WaitForSeconds(
             playerAnim.GetCurrentAnimatorStateInfo(0).length
-         ); 
+        ); 
 
-         playerAnim.SetBool("JumpDown", true); 
+        playerAnim.SetBool("Jump", false); 
+        playerAnim.SetBool("JumpDown", true); 
     }
 
     private void OnCollisionEnter(Collision collision)
