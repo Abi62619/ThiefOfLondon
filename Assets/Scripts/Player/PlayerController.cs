@@ -204,6 +204,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
     #region Jump
 
     void OnJump(InputAction.CallbackContext context)
