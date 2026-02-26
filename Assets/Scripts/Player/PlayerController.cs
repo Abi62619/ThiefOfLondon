@@ -34,7 +34,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Mouse Look Settings")]
     [SerializeField] private float mouseSpeed = 1f;
-    [SerializeField] private Vector2 lookInput;
+    [SerializeField] private Vector2 input; 
+    [SerializeField] private Transform cameraTransform; 
+    [HideInInspector] private float turnSmoothVelocity; 
     [HideInInspector] private float rotationX;
 
     [Header("Crouch Settings")]
@@ -53,7 +55,6 @@ public class PlayerController : MonoBehaviour
     [Header("Animation Settings")] 
     [SerializeField] private Animator playerAnim;
     [SerializeField] private float idleTimeBeforeStop = 0f;
-    [HideInInspector] private PlayerState currentState; 
     [HideInInspector] private float idleTimer; 
 
     void Start()
@@ -144,6 +145,7 @@ public class PlayerController : MonoBehaviour
         sprintAction.canceled -= OnSprint; 
     }
 
+    #endregion
     #region Movement 
 
     void Movement()
@@ -187,6 +189,7 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetBool("isSprinting", isSprinting);
     }
 
+    #endregion
     #region mouseLook 
 
     void MouseLook()
@@ -254,6 +257,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
     }
 
+    #endregion
     #region Crouch
 
     void OnCrouch(InputAction.CallbackContext context)
@@ -269,6 +273,7 @@ public class PlayerController : MonoBehaviour
         cc.height = isCrouching ? crouchHeight : standingHeight;
     }
 
+    #endregion
     #region Slide
 
     void OnSlideStart(InputAction.CallbackContext context)
@@ -323,4 +328,6 @@ public class PlayerController : MonoBehaviour
         playerObj.localScale =
             new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
     }
-}
+
+    #endregion
+}   
