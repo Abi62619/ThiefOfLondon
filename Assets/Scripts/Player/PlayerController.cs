@@ -51,9 +51,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private float startYScale;
 
     [Header("Animation Settings")] 
-    [HideInInspector] private Animator playerAnim;
+    [SerializeField] private Animator playerAnim;
     [SerializeField] private float idleTimeBeforeStop = 0f;
-    
+    [HideInInspector] private PlayerState currentState; 
     [HideInInspector] private float idleTimer; 
 
     void Start()
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
             SlidingMovement();
     }
 
-    // ================= INPUT SETUP =================
+    #region Input Setup 
 
     void OnEnable()
     {
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
         sprintAction.canceled -= OnSprint; 
     }
 
-    // ================= MOVEMENT =================
+    #region Movement 
 
     void Movement()
     {
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
         if (moveInput != Vector2.zero)
         {
-            playerAnim.SetBool("Walking", true);
+            playerAnim.SetBool("isWalking", true);
             idleTimer = 0f; // reset timer when moving
         }
         else
@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour
 
             if (idleTimer <= idleTimeBeforeStop)
             {
-                playerAnim.SetBool("Walking", false);
+                playerAnim.SetBool("isWalking", false);
             }
         }
     }
@@ -184,25 +184,24 @@ public class PlayerController : MonoBehaviour
     void OnSprint(InputAction.CallbackContext context)
     {
         isSprinting = context.ReadValueAsButton();
-        playerAnim.SetBool("Sprint", isSprinting);
+        playerAnim.SetBool("isSprinting", isSprinting);
     }
 
-    // ================= MOUSE LOOK =================
+    #region mouseLook 
 
     void MouseLook()
     {
-        lookInput = lookAction.ReadValue<Vector2>() * mouseSpeed;
+        Vector3 moveDir = new Vector3(input.x, 0f, input.y).normalized;
 
-        rotationX -= lookInput.y;
-        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
-
-        playerCamera.localRotation =
-            Quaternion.Euler(rotationX, 0f, 0f);
-
-        transform.Rotate(Vector3.up * lookInput.x);
+        if (moveDir.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.1f);
+            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+        }
     }
 
-    // ================= JUMP =================
+    #region Jump
 
     void OnJump(InputAction.CallbackContext context)
     {
@@ -218,28 +217,27 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(IdleJumpRoutine());
     }
 
-    //hjk
     IEnumerator IdleJumpRoutine()
     {
-        playerAnim.SetBool("IdleJump", true);
+        playerAnim.SetBool("isUp_I_Jump", true);
 
         yield return new WaitForSeconds(0.5f); // match jump anim length
 
-        playerAnim.SetBool("IdleJump", false);
-        playerAnim.SetBool("IdleDown", true);
+        playerAnim.SetBool("isUp_I_Jump", false);
+        playerAnim.SetBool("isDn_I_Jump", true);
     }
 
     IEnumerator WalkingJumpRoutine()
     {
-        playerAnim.SetBool("Jump", true); 
+        playerAnim.SetBool("isUp_W_Jump", true); 
 
          //wait for the length of current animation 
         yield return new WaitForSeconds(
             playerAnim.GetCurrentAnimatorStateInfo(0).length
         ); 
 
-        playerAnim.SetBool("Jump", false); 
-        playerAnim.SetBool("JumpDown", true); 
+        playerAnim.SetBool("isUp_W_Jump", false); 
+        playerAnim.SetBool("isDn_W_Jump", true); 
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -247,7 +245,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            playerAnim.SetBool("Jump", false); 
+            playerAnim.SetBool("isDn_W_Jump", false); 
         }
     }
 
@@ -256,7 +254,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
     }
 
-    // ================= CROUCH =================
+    #region Crouch
 
     void OnCrouch(InputAction.CallbackContext context)
     {
@@ -271,7 +269,7 @@ public class PlayerController : MonoBehaviour
         cc.height = isCrouching ? crouchHeight : standingHeight;
     }
 
-    // ================= SLIDE =================
+    #region Slide
 
     void OnSlideStart(InputAction.CallbackContext context)
     {
