@@ -183,25 +183,8 @@ public class PlayerController : MonoBehaviour
 
     void OnSprint(InputAction.CallbackContext context)
     {
-        isSprinting = context.started || context.performed; 
-        //Debug.Log("Sprinting: " + isSprinting);
-
-        // ===== ANIMATION LOGIC =====
-
-        if (moveInput != Vector2.zero)
-        {
-            playerAnim.SetBool("Sprint", true);
-            idleTimer = 0f; // reset timer when moving
-        }
-        else
-        {
-            idleTimer += Time.deltaTime;
-
-            if (idleTimer <= idleTimeBeforeStop)
-            {
-                playerAnim.SetBool("Sprint", false);
-            }
-        }
+        isSprinting = context.ReadValueAsButton();
+        playerAnim.SetBool("Sprint", isSprinting);
     }
 
     // ================= MOUSE LOOK =================
