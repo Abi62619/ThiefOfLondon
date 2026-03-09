@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Object", menuName = "Inventory System/Items")]
-
+[CreateAssetMenu(fileName = "New Coins", menuName = "Inventory System/Items/Coins")]
 public class Coins : Item    
 {   
     public void OnEnable()
@@ -10,6 +9,7 @@ public class Coins : Item
     }
 }
 
+[CreateAssetMenu(fileName = "New Necklace", menuName = "Inventory System/Items/Necklace")]
 public class Necklace : Item    
 {   
     public void OnEnable()
@@ -18,6 +18,7 @@ public class Necklace : Item
     }
 }
 
+[CreateAssetMenu(fileName = "New Bracelet", menuName = "Inventory System/Items/Bracelet")]
 public class Bracelet : Item    
 {   
     public void OnEnable()
@@ -26,6 +27,7 @@ public class Bracelet : Item
     }
 }
 
+[CreateAssetMenu(fileName = "New Handkerchiefs", menuName = "Inventory System/Items/Handkerchiefs")]
 public class Handkerchiefs : Item    
 {   
     public void OnEnable()
@@ -34,6 +36,7 @@ public class Handkerchiefs : Item
     }
 }
 
+[CreateAssetMenu(fileName = "New Purses", menuName = "Inventory System/Items/Purses")]
 public class Purses : Item    
 {   
     public void OnEnable()
