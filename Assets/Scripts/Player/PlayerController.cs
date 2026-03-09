@@ -253,14 +253,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    /*private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
         if (isGrounded = false)
         {
             playerAnim.SetTrigger("Up_I_Jump", true);
         }
-    }
+    }*/
 
     #endregion
     #region Crouch

@@ -1,43 +1,46 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Object", menuName = "Inventory System/Items")]
-
+[CreateAssetMenu(fileName = "New Coins", menuName = "Inventory System/Items/Coins")]
 public class Coins : Item    
 {   
     public void OnEnable()
     {
-        type = itemType.Coins; 
+        itemType = ItemType.Coins; 
     }
 }
 
+[CreateAssetMenu(fileName = "New Necklace", menuName = "Inventory System/Items/Necklace")]
 public class Necklace : Item    
 {   
     public void OnEnable()
     {
-        type = itemType.Necklace; 
+        itemType = ItemType.Necklace; 
     }
 }
 
+[CreateAssetMenu(fileName = "New Bracelet", menuName = "Inventory System/Items/Bracelet")]
 public class Bracelet : Item    
 {   
     public void OnEnable()
     {
-        type = itemType.Bracelet; 
+        itemType = ItemType.Bracelet; 
     }
 }
 
+[CreateAssetMenu(fileName = "New Handkerchiefs", menuName = "Inventory System/Items/Handkerchiefs")]
 public class Handkerchiefs : Item    
 {   
     public void OnEnable()
     {
-        type = itemType.Handkerchiefs; 
+        itemType = ItemType.Handkerchiefs; 
     }
 }
 
+[CreateAssetMenu(fileName = "New Purses", menuName = "Inventory System/Items/Purses")]
 public class Purses : Item    
 {   
     public void OnEnable()
     {
-        type = itemType.Purses; 
+        itemType = ItemType.Purses; 
     }
 } 
