@@ -5,7 +5,7 @@ public class Coins : Item
 {   
     public void OnEnable()
     {
-        type = itemType.Coins; 
+        itemType = ItemType.Coins; 
     }
 }
 
@@ -14,7 +14,7 @@ public class Necklace : Item
 {   
     public void OnEnable()
     {
-        type = itemType.Necklace; 
+        itemType = ItemType.Necklace; 
     }
 }
 
@@ -23,7 +23,7 @@ public class Bracelet : Item
 {   
     public void OnEnable()
     {
-        type = itemType.Bracelet; 
+        itemType = ItemType.Bracelet; 
     }
 }
 
@@ -32,7 +32,7 @@ public class Handkerchiefs : Item
 {   
     public void OnEnable()
     {
-        type = itemType.Handkerchiefs; 
+        itemType = ItemType.Handkerchiefs; 
     }
 }
 
@@ -41,6 +41,6 @@ public class Purses : Item
 {   
     public void OnEnable()
     {
-        type = itemType.Purses; 
+        itemType = ItemType.Purses; 
     }
 } 
