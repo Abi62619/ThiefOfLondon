@@ -30,11 +30,17 @@ public class PlayerInventory : MonoBehaviour
 
     void OnDisable()
     {
-        saveAction.performed -= OnSave;
-        loadAction.performed -= OnLoad;
+        if (saveAction != null)
+        {
+            saveAction.performed -= OnSave;
+            saveAction.Disable();
+        }
 
-        saveAction.Disable();
-        loadAction.Disable();
+        if (loadAction != null)
+        {
+            loadAction.performed -= OnLoad;
+            loadAction.Disable();
+        }
     }
 
     void OnSave(InputAction.CallbackContext context)
@@ -58,6 +64,9 @@ public class PlayerInventory : MonoBehaviour
     public InventoryData GetSaveData()
     {
         InventoryData data = new InventoryData();
+
+        data.itemId = new List<int>();
+
 
         if (data.itemId == null)
             data.itemId = new List<int>();  // if the items added make new in the list 
