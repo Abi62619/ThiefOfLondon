@@ -29,9 +29,14 @@ public class PickPocketManger : MonoBehaviour
     [SerializeField] private LayerMask npcLayer; 
 
     [Header("Rewards")]
-    [SerializeField] private int minCoin = 5;
-    [SerializeField] private int maxCoin = 20;
-    [SerializeField] private float itemChance = 0.25f; // 25%
+    [SerializeField] private int minObject = 1;
+    [SerializeField] private int maxObject = 5;
+    [SerializeField] private float itemChance = 0.25f; // 25%--
+
+    [Header("Inventory")]
+    [SerializeField] private PlayerInventory playerInventory; 
+    [SerializeField] private ItemDatabase itemDatabase; 
+
 
     private PickpocketTarget currentTarget;
 
@@ -189,7 +194,7 @@ public class PickPocketManger : MonoBehaviour
 
         if(success)
         {
-            //GiveRewards();
+            GiveRewards();
             Debug.Log("[PickPocket] Pickpocket successful");
         }
         else
@@ -229,37 +234,35 @@ public class PickPocketManger : MonoBehaviour
         return false;
     }
 
-    /*private void GiveRewards()
+    private void GiveRewards()
     {
-        Debug.Log($"[PickPocket] player null? {player == null}");
+        if (playerInventory == null)
+        {
+            Debug.LogError("PlayerInventory not assigned!");
+            return;
+        }
 
-        // COINS - Change this line
-        int coin = UnityEngine.Random.Range(minCoin, maxCoin + 1);
-        playerInventory.AddCoin(coin);  // Use playerInventory for coins
-        Debug.Log($"[PickPocket] Coin gained: {coin}");
+        // Objects 
+        int objects = UnityEngine.Random.Range(minObject, maxObject + 1);
+        playerInventory.AddObjects(objects);
 
-        // ITEM REWARD - Keep using player.AddItem() if you added the method
+        // ITEM CHANCE
         if (UnityEngine.Random.value <= itemChance)
         {
-            if(currentTarget.possibleLoot != null && currentTarget.possibleLoot.Length > 0)
+            if (itemDatabase.items.Count > 0)
             {
-                int randomIndex = UnityEngine.Random.Range(0, currentTarget.possibleLoot.Length);
+                int randomIndex = UnityEngine.Random.Range(0, itemDatabase.items.Count);
 
-                ItemObject stolenItem = currentTarget.possibleLoot[randomIndex];
+                Item stolenItem = itemDatabase.items[randomIndex];
 
-                player.AddItem(stolenItem);  // This works now with the new method
+                playerInventory.AddItem(stolenItem);
 
-                Debug.Log($"[PickPocket] Item stolen: {stolenItem.name}");
-            }
-            else
-            {
-                Debug.Log("[PickPocket] NPC has no loot assigned");
+                Debug.Log("Stolen item: " + stolenItem.name);
             }
         }
 
         currentTarget.hasBeenPickpocketed = true;
-    }*/
-
+    }
 
     private void Failure()
     {

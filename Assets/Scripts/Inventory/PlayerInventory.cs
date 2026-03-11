@@ -16,6 +16,7 @@ public class PlayerInventory : MonoBehaviour
     [Header("Items")]
     public List<Item> items = new List<Item>();  //list of players items 
     public ItemDatabase database;  // database of items player can get  
+    public int objects; //players total objects 
 
     void OnEnable()
     {
@@ -25,7 +26,7 @@ public class PlayerInventory : MonoBehaviour
         loadAction = actionMap.FindAction("Load");
 
         saveAction.performed += OnSave;
-        loadAction.performed += OnLoad;
+        loadAction.performed += OnLoaded;
 
         saveAction.Enable();
         loadAction.Enable();
@@ -41,7 +42,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (loadAction != null)
         {
-            loadAction.performed -= OnLoad;
+            loadAction.performed -= OnLoaded;
             loadAction.Disable();
         }
     }
@@ -55,7 +56,7 @@ public class PlayerInventory : MonoBehaviour
         InventorySaveSystem.SaveInventory(this);
     }
 
-    void OnLoad(InputAction.CallbackContext context)
+    void OnLoaded(InputAction.CallbackContext context)
     {
         Debug.Log("Load triggered");
 
@@ -63,6 +64,11 @@ public class PlayerInventory : MonoBehaviour
 
         InventorySaveSystem.LoadInventory(this);
     }
+
+    /*void OnTest(InputAction.CallbackContext context)
+    {
+        Debug.Log("Test Load Trigger"); 
+    }*/
 
     public InventoryData GetSaveData()
     {
@@ -104,5 +110,28 @@ public class PlayerInventory : MonoBehaviour
         }
 
         Debug.Log("Inventory loaded. Item count: " + items.Count);
+    }
+
+    public void AddObjects(int amount)
+    {
+        objects += amount;
+
+        Item objectItem = database.GetItem(0); // item id
+
+        for (int i = 0; i < amount; i++)
+        {
+            items.Add(objectItem);
+        }
+
+        Debug.Log("Objects gained: " + amount);
+    }
+
+    public void AddItem(Item item)
+    {
+        if (item == null) return;
+
+        items.Add(item);
+
+        Debug.Log("Item added: " + item.name);
     }
 }
