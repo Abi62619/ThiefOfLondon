@@ -9,15 +9,15 @@ public abstract class Item : ScriptableObject
     public int itemId; 
     public string name; 
     public Sprite icon; 
+}
 
-    public enum ItemType
-    {
-        Coins, 
-        Necklace, 
-        Bracelet, 
-        Handkerchiefs, 
-        Purses 
-    }
+public enum ItemType
+{
+    Coins, 
+    Necklace, 
+    Bracelet, 
+    Handkerchiefs, 
+    Purses 
 }
 
 [Serializable]
