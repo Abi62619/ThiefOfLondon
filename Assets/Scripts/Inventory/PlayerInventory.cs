@@ -67,9 +67,7 @@ public class PlayerInventory : MonoBehaviour
 
         data.itemId = new List<int>();
 
-
-        if (data.itemId == null)
-            data.itemId = new List<int>();  // if the items added make new in the list 
+        foreach (Item item in items) // if the items added make new in the list 
         {
             if (item != null)
                 data.itemId.Add(item.itemId);
