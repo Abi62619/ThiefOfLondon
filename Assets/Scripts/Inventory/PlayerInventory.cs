@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
+    //need to test the method see if it happpens with other methods 
+    //need to test if it is the hold in the input system
+
     [Header("Input")]
     public InputActionAsset inputActionAsset;
 
