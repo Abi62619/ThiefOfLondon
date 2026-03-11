@@ -251,7 +251,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             playerAnim.SetBool("isDn_W_Jump", false); 
         }
-    }
+    }    
 
     /*private void OnCollisionExit(Collision collision)
     {
