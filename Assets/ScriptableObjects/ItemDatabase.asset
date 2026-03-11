@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba51b49850d93db49bdf327f13ebe130, type: 3}
-  m_Name: Chicken
+  m_Script: {fileID: 11500000, guid: 8743ef86d9e079440a5be152598e91b4, type: 3}
+  m_Name: ItemDatabase
   m_EditorClassIdentifier: 
-  ItemName: Chicken
-  itemIcon: {fileID: -1796407868, guid: 4d6d3e529a32a4141bbac8264745777d, type: 3}
-  healthAdded: 2
+  items: []

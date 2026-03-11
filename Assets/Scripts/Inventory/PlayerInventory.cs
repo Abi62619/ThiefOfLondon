@@ -11,8 +11,8 @@ public class PlayerInventory : MonoBehaviour
     private InputAction loadAction;
 
     [Header("Items")]
-    public List<Item> items = new List<Item>();
-    public ItemDatabase database;
+    public List<Item> items = new List<Item>();  //list of players items 
+    public ItemDatabase database;  // database of items player can get  
 
     void OnEnable()
     {
@@ -37,13 +37,21 @@ public class PlayerInventory : MonoBehaviour
         loadAction.Disable();
     }
 
-    void OnSave(InputAction.CallbackContext ctx)
+    void OnSave(InputAction.CallbackContext context)
     {
+        Debug.Log("Save triggered");
+
+        if (!context.performed) return;
+
         InventorySaveSystem.SaveInventory(this);
     }
 
-    void OnLoad(InputAction.CallbackContext ctx)
+    void OnLoad(InputAction.CallbackContext context)
     {
+        Debug.Log("Load triggered");
+
+        if (!context.performed) return;
+
         InventorySaveSystem.LoadInventory(this);
     }
 
@@ -51,9 +59,11 @@ public class PlayerInventory : MonoBehaviour
     {
         InventoryData data = new InventoryData();
 
-        foreach (var item in items)
+        if (data.itemId == null)
+            data.itemId = new List<int>();  // if the items added make new in the list 
         {
-            data.itemIds.Add(item.itemId);
+            if (item != null)
+                data.itemId.Add(item.itemId);
         }
 
         return data;
@@ -61,14 +71,28 @@ public class PlayerInventory : MonoBehaviour
 
     public void LoadData(InventoryData data)
     {
+        if (database == null)
+        {
+            Debug.LogError("ItemDatabase is NULL!");
+            return;
+        }
+
         items.Clear();
 
-        foreach (int id in data.itemIds)
+        foreach (int id in data.itemId)
         {
-            Item item = database.GetItem(id);
+            Item item = database.GetItem(id);  // get the item id from the database
 
             if (item != null)
-                items.Add(item);
+            {
+                items.Add(item);  // add the item 
+            }
+            else
+            {
+                Debug.LogWarning("Item ID not found in database: " + id);
+            }
         }
+
+        Debug.Log("Inventory loaded. Item count: " + items.Count);
     }
 }
