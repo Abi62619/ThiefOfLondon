@@ -82,7 +82,7 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "641cd816-40e6-41b4-8c3d-04687c349290",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -504,8 +504,8 @@
                 {
                     "name": "",
                     "id": "ae5d410b-0107-4dc5-a058-2f900d9e7dc9",
-                    "path": "<Keyboard>/c",
-                    "interactions": "Press",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "PickpocketConfirm",

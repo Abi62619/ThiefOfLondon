@@ -24,4 +24,5 @@ public enum ItemType
 public class InventoryData
 {
     public List<int> itemId = new List<int>();
+    public int objects; 
 }

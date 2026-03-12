@@ -55,8 +55,6 @@ public class PickPocketManger : MonoBehaviour
     void Start()
     {
         StartGame(); 
-        
-        Cursor.lockState = CursorLockMode.Locked; 
     }
 
     // Update is called once per frame

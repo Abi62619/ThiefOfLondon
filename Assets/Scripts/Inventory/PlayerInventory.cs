@@ -76,11 +76,13 @@ public class PlayerInventory : MonoBehaviour
 
         data.itemId = new List<int>();
 
-        foreach (Item item in items) // if the items added make new in the list 
+        foreach (Item item in items)
         {
             if (item != null)
                 data.itemId.Add(item.itemId);
         }
+
+        data.objects = objects;
 
         return data;
     }
@@ -97,17 +99,19 @@ public class PlayerInventory : MonoBehaviour
 
         foreach (int id in data.itemId)
         {
-            Item item = database.GetItem(id);  // get the item id from the database
+            Item item = database.GetItem(id);
 
             if (item != null)
             {
-                items.Add(item);  // add the item 
+                items.Add(item);
             }
             else
             {
                 Debug.LogWarning("Item ID not found in database: " + id);
             }
         }
+
+        objects = data.objects;
 
         Debug.Log("Inventory loaded. Item count: " + items.Count);
     }
@@ -116,10 +120,12 @@ public class PlayerInventory : MonoBehaviour
     {
         objects += amount;
 
-        Item objectItem = database.GetItem(0); // item id
-
         for (int i = 0; i < amount; i++)
         {
+            int randomID = UnityEngine.Random.Range(0, database.items.Count);
+
+            Item objectItem = database.GetItem(randomID);
+
             items.Add(objectItem);
         }
 
@@ -133,5 +139,10 @@ public class PlayerInventory : MonoBehaviour
         items.Add(item);
 
         Debug.Log("Item added: " + item.name);
+    }
+
+    void OnApplicationQuit()
+    {
+        InventorySaveSystem.SaveInventory(this);
     }
 }

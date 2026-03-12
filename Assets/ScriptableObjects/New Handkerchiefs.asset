@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: New Handkerchiefs
   m_EditorClassIdentifier: Assembly-CSharp::Handkerchiefs
   itemType: 3
-  itemId: 3
+  itemId: 1
   name: Handkerchief
   icon: {fileID: 0}
