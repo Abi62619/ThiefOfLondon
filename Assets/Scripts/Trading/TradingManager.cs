@@ -5,9 +5,8 @@ public class TradingManager : MonoBehaviour
 {
     public PlayerInventory playerInventory;
     public TraderInventory traderInventory;  
-    [SerializeField] public static TradingManager Instance; 
-    [SerializeField] public List<Item> playerInventory = new List<Item>();
-    [SerializeField] public List<Item> traderInventory = new List<Item>();
+    public static TradingManager Instance; 
+    public List<Item> traderItems = new List<Item>();
     [HideInInspector] private Item selectedItem; 
     [HideInInspector] private string sourceInventory; 
     
@@ -28,18 +27,24 @@ public class TradingManager : MonoBehaviour
     {
         if (inventoryName == "PlayerInventoryPanel")
         {
-            selectedItem = playerInventory[slotIndex];
+            if (slotIndex >= playerInventory.items.Count) return;
+
+            selectedItem = playerInventory.items[slotIndex];
             sourceInventory = "PlayerInventoryPanel";
+
+            SafeTransferItem(selectedItem, playerInventory.items, traderItems);
         }
         else if (inventoryName == "TraderInventoryPanel")
         {
-            selectedItem = traderInventory[slotIndex];
+            if (slotIndex >= traderItems.Count) return;
+
+            selectedItem = traderItems[slotIndex];
             sourceInventory = "TraderInventoryPanel";
+
+            SafeTransferItem(selectedItem, traderItems, playerInventory.items);
         }
 
-        UpdateUI(); //refresh UI after transfer 
-        selectedItem = null; //reset selection 
-        
+        selectedItem = null;
     }
 
     private void UpdateUI()
@@ -50,36 +55,35 @@ public class TradingManager : MonoBehaviour
         // or disable the image if the slot is empty.
     }
     
-    public bool CanTransferItem(Item item, List<Item> sourceInventory, List<Item> destinationInventory)
+    public bool CanTransferItem(Item item, IList<Item> sourceInventory, IList<Item> destinationInventory)
     {
-        //check if item is valid
         if(item == null)
         {
             Debug.LogError("Invalid item.");
-            return false; 
+            return false;
         }
 
-        //check if source inventory contains the item
         if (!sourceInventory.Contains(item))
         {
             Debug.LogError("Source inventory does not contain item.");
-            return false; 
+            return false;
         }
 
-        return true; 
+        return true;
     }
 
-    public void SafeTransferItem(Item item, List<ItemSlot> sourceInventory, List<Item> destinationInventory)
+    public void SafeTransferItem(Item item, IList<Item> sourceInventory, IList<Item> destinationInventory)
     {
-        if(CanTransferItem(item,sourceInventory, destinationInventory))
+        if(CanTransferItem(item, sourceInventory, destinationInventory))
         {
             sourceInventory.Remove(item);
             destinationInventory.Add(item);
+
             UpdateUI();
         }
         else
         {
-            Debug.LogError("Item transfer failed due to validation errors."); 
+            Debug.LogError("Item transfer failed due to validation errors.");
         }
     }
 }

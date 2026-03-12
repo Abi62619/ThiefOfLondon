@@ -24,7 +24,7 @@ public class PickPocketManger : MonoBehaviour
     [SerializeField] private float maxSuccessSize = 20f;
 
     [Header("Raycast Settings")]
-    [SerializeField] private Transform rayOrigin; // camera on player
+    [SerializeField] private Transform rayOrigin; // Empty on player 
     [SerializeField] private float interactDistance = 3.0f;
     [SerializeField] private LayerMask npcLayer; 
 
@@ -54,7 +54,7 @@ public class PickPocketManger : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartGame(); 
+        pickPocketMiniGameUI.SetActive(false); 
     }
 
     // Update is called once per frame
@@ -128,30 +128,48 @@ public class PickPocketManger : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("PickPocket Manager assigned!"); 
+        if (inputActionAsset == null)
+        {
+            Debug.LogError("InputActionAsset not assigned in PickPocketManager!");
+            return;
+        }
 
         var actionMap = inputActionAsset.FindActionMap("Player");
+
+        if (actionMap == null)
+        {
+            Debug.LogError("Player ActionMap not found!");
+            return;
+        }
+
         interactAction = actionMap.FindAction("Pickpocket");
-
-        interactAction.Enable();
-
-        interactAction.performed += OnInteract;
-
         confirmPickpocketAction = actionMap.FindAction("PickpocketConfirm");
 
-        confirmPickpocketAction.Enable();
+        if (interactAction == null || confirmPickpocketAction == null)
+        {
+            Debug.LogError("One or more input actions are missing!");
+            return;
+        }
+
+        interactAction.performed += OnInteract;
         confirmPickpocketAction.performed += OnConfirmPickpocket;
+
+        interactAction.Enable();
     }
 
     private void OnDisable()
     {
-        interactAction.performed -= OnInteract;
+        if (interactAction != null)
+        {
+            interactAction.performed -= OnInteract;
+            interactAction.Disable();
+        }
 
-        interactAction.Disable();
-
-        confirmPickpocketAction.performed -= OnConfirmPickpocket;
-
-        confirmPickpocketAction.Disable();
+        if (confirmPickpocketAction != null)
+        {
+            confirmPickpocketAction.performed -= OnConfirmPickpocket;
+            confirmPickpocketAction.Disable();
+        }
     }
 
     private void OnInteract(InputAction.CallbackContext context)
@@ -177,11 +195,17 @@ public class PickPocketManger : MonoBehaviour
 
     private void OnConfirmPickpocket(InputAction.CallbackContext context)
     {
+        Debug.Log("Confirm pressed");
+
+        Debug.Log("isPlaying: " + isPlaying);
+        Debug.Log("redBarUI: " + redBarUI);
+        Debug.Log("greenBarUI: " + greenBarUI);
+        Debug.Log("indicatorUI: " + indicatorUI);
+
         if (!isPlaying || isGameEnded) return;
 
         CheckSuccess();
     }
-
     private void CheckSuccess()
     {
         bool success =

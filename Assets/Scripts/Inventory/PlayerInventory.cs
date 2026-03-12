@@ -15,7 +15,7 @@ public class PlayerInventory : MonoBehaviour
 
     [Header("Items")]
     public List<Item> items = new List<Item>();  //list of players items 
-    public ItemDatabase database;  // database of items player can get  
+    public ItemDatabase playerDatabase;  // database of items player can get  
     public int objects; //players total objects 
 
     void OnEnable()
@@ -89,7 +89,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void LoadData(InventoryData data)
     {
-        if (database == null)
+        if (playerDatabase == null)
         {
             Debug.LogError("ItemDatabase is NULL!");
             return;
@@ -99,7 +99,7 @@ public class PlayerInventory : MonoBehaviour
 
         foreach (int id in data.itemId)
         {
-            Item item = database.GetItem(id);
+            Item item = playerDatabase.GetItem(id);
 
             if (item != null)
             {
@@ -122,9 +122,9 @@ public class PlayerInventory : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            int randomID = UnityEngine.Random.Range(0, database.items.Count);
+            int randomID = UnityEngine.Random.Range(0, playerDatabase.items.Count);
 
-            Item objectItem = database.GetItem(randomID);
+            Item objectItem = playerDatabase.GetItem(randomID);
 
             items.Add(objectItem);
         }
