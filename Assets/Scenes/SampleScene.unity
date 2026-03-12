@@ -318,9 +318,10 @@ MonoBehaviour:
   moveSpeed: 6
   sprintSpeed: 30
   jumpForce: 5
-  mouseSpeed: 2
-  input: {x: 0, y: 0}
+  mouseSense: 0.5
+  rotationX: 0
   cameraTransform: {fileID: 330585546}
+  mouseInput: {x: 0, y: 0}
   crouchHeight: 2
   slideForce: 12
   maxSlideTime: 1
