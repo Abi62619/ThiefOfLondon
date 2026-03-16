@@ -200,11 +200,13 @@ public class PlayerController : MonoBehaviour
         float mouseX = mouseInput.x;
         float mouseY = mouseInput.y;
 
+        rotationX -= mouseInput.y;
+        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+
         playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
 
         // Horizontal rotation
         orientation.Rotate(Vector3.up * mouseX);
-        
     }
 
     #endregion
@@ -218,10 +220,18 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        if (moveInput != Vector2.zero)
+        if (isSprinting)
+        {
+            StartCoroutine(SprintingJumpRoutine());
+        }
+        else if (moveInput != Vector2.zero)
+        {
             StartCoroutine(WalkingJumpRoutine());
+        }
         else
+        {
             StartCoroutine(IdleJumpRoutine());
+        }
     }
 
     IEnumerator IdleJumpRoutine()
@@ -247,23 +257,36 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetBool("isDn_W_Jump", true); 
     }
 
+    IEnumerator SprintingJumpRoutine()
+    {
+        playerAnim.SetBool("isUp_S_Jump", true); 
+
+         //wait for the length of current animation 
+        yield return new WaitForSeconds(
+            playerAnim.GetCurrentAnimatorStateInfo(0).length
+        ); 
+
+        playerAnim.SetBool("isUp_S_Jump", false); 
+        playerAnim.SetBool("isDn_S_Jump", true); 
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            playerAnim.SetBool("isDn_W_Jump", false); 
-        }
-    }    
 
-    /*private void OnCollisionExit(Collision collision)
+            // reset landing animations
+            playerAnim.SetBool("isDn_I_Jump", false);
+            playerAnim.SetBool("isDn_W_Jump", false);
+            playerAnim.SetBool("isDn_S_Jump", false); 
+        }
+    } 
+
+    private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
-        if (isGrounded = false)
-        {
-            playerAnim.SetTrigger("Up_I_Jump", true);
-        }
-    }*/
+    }
 
     #endregion
     #region Crouch

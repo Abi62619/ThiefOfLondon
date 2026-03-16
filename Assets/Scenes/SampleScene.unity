@@ -482,7 +482,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 94cb644db03fd0a46a5245f7d87e0793, type: 2}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1688636777314044, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1642072412279964, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1824688706780914, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1957025024057728, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1772520217424982, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1433632703783406, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1702537382028630, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1715708659242554, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1243454065497512, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1091297392002678, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1380792059663964, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1590432598062746, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1740460702684404, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1605696656668670, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1665712329625942, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1963504268171168, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1709263028004624, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1153311877303380, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1756383214652768, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1666908272375958, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
+    - {fileID: 1897569783779656, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4330087673648394, guid: b3a21033f5e25ef47a403070d1d96983, type: 3}
       insertIndex: -1
@@ -2401,9 +2422,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TraderInventory
   items:
-  - {fileID: 11400000, guid: 8497c362675da684d9da99b0c69011be, type: 2}
-  - {fileID: 11400000, guid: ce4f10445236fd9468e56d49a8e1ff86, type: 2}
-  - {fileID: 11400000, guid: e8541afcd6339cb4a8cf2bcd05551a53, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   traderDatabase: {fileID: 11400000, guid: 494dddd051870c54ab9341e726099efa, type: 2}
   traderObjects: 5
 --- !u!114 &1427217207
@@ -2421,9 +2442,9 @@ MonoBehaviour:
   playerInventory: {fileID: 283411053}
   traderInventory: {fileID: 1427217206}
   traderItems:
-  - {fileID: 11400000, guid: 8497c362675da684d9da99b0c69011be, type: 2}
-  - {fileID: 11400000, guid: ce4f10445236fd9468e56d49a8e1ff86, type: 2}
-  - {fileID: 11400000, guid: e8541afcd6339cb4a8cf2bcd05551a53, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1570196256
 GameObject:
   m_ObjectHideFlags: 0
