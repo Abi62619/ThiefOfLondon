@@ -1,8 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Item Database", menuName = "Inventory System/Item Database")]
+[CreateAssetMenu(fileName = "ItemDatabase", menuName = "Inventory System/Item Database")]
 public class ItemDatabase : ScriptableObject
 {
     public List<Item> items = new List<Item>();
+
+    public Item GetItem(int id)
+    {
+        return items.Find(item => item.itemId == id);
+    }
 }

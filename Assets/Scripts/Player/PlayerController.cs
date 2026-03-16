@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private bool isGrounded; 
 
     [Header("Mouse Look Settings")]
-    [SerializeField] private float mouseSpeed = 1f;
-    [SerializeField] private Vector2 input; 
-    [SerializeField] private Transform cameraTransform; 
+    [SerializeField] private float mouseSense = 2f;
+    [SerializeField] private  float rotationX;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Vector2 mouseInput; 
     [HideInInspector] private float turnSmoothVelocity; 
-    [HideInInspector] private float rotationX;
 
     [Header("Crouch Settings")]
     [SerializeField] private float crouchHeight = 2f;
@@ -190,18 +190,21 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+    
     #region mouseLook 
 
     void MouseLook()
     {
-        Vector3 moveDir = new Vector3(input.x, 0f, input.y).normalized;
+        mouseInput = lookAction.ReadValue<Vector2>() * mouseSense * 100f * Time.deltaTime;
 
-        if (moveDir.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.1f);
-            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
-        }
+        float mouseX = mouseInput.x;
+        float mouseY = mouseInput.y;
+
+        playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+
+        // Horizontal rotation
+        orientation.Rotate(Vector3.up * mouseX);
+        
     }
 
     #endregion
@@ -251,7 +254,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             playerAnim.SetBool("isDn_W_Jump", false); 
         }
-    }
+    }    
 
     /*private void OnCollisionExit(Collision collision)
     {

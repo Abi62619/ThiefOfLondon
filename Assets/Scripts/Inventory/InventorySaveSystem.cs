@@ -1,31 +1,35 @@
-using UnityEngine; 
-using System.IO; 
+using UnityEngine;
 
-public class InventorySaveSystem
+public static class InventorySaveSystem
 {
-    static string path = Application.persistentDataPath + "/inventory.json"; 
+    private const string INVENTORY_KEY = "PLAYER_INVENTORY";
 
     public static void SaveInventory(PlayerInventory inventory)
     {
-        InventoryData data = inventory.GetSaveData(); 
-        string json = JsonUtility.ToJson(data, true); 
+        InventoryData data = inventory.GetSaveData();
 
-        File.WriteAllText(path, json); 
-        Debug.Log("Inventory saved to: " + path); 
+        string json = JsonUtility.ToJson(data);
+
+        PlayerPrefs.SetString(INVENTORY_KEY, json);
+        PlayerPrefs.Save();
+
+        Debug.Log("Inventory saved with PlayerPrefs");
     }
 
     public static void LoadInventory(PlayerInventory inventory)
     {
-        if(!File.Exists(path))
+        if (!PlayerPrefs.HasKey(INVENTORY_KEY))
         {
-            Debug.Log("No save file found"); 
-            return; 
+            Debug.Log("No inventory save found");
+            return;
         }
 
-        string json = File.ReadAllText(path); 
-        InventoryData data = JsonUtility.FromJson<InventoryData>(json); 
+        string json = PlayerPrefs.GetString(INVENTORY_KEY);
 
-        inventory.LoadData(data); 
-        Debug.Log("Inventory loaded"); 
+        InventoryData data = JsonUtility.FromJson<InventoryData>(json);
+
+        inventory.LoadData(data);
+
+        Debug.Log("Inventory loaded with PlayerPrefs");
     }
 }
