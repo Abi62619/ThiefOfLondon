@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
-    //need to test the method see if it happpens with other methods 
-    //need to test if it is the hold in the input system
+    //Finish watching https://www.youtube.com/watch?v=AoD_F1fSFFg
 
     [Header("Input")]
     public InputActionAsset inputActionAsset;
@@ -17,6 +16,11 @@ public class PlayerInventory : MonoBehaviour
     public List<Item> items = new List<Item>();  //list of players items 
     public ItemDatabase playerDatabase;  // database of items player can get  
     public int objects; //players total objects 
+
+    [Header("Inventory UI")]
+    public static PlayerInventory Instance; 
+    public Transform itemContent; 
+    public GameObject inventoryItem; 
 
     void OnEnable()
     {
@@ -45,6 +49,11 @@ public class PlayerInventory : MonoBehaviour
             loadAction.performed -= OnLoaded;
             loadAction.Disable();
         }
+    }
+
+    void Awake()
+    {
+        Instance = this; 
     }
 
     void OnSave(InputAction.CallbackContext context)
@@ -144,5 +153,17 @@ public class PlayerInventory : MonoBehaviour
     void OnApplicationQuit()
     {
         InventorySaveSystem.SaveInventory(this);
+    }
+
+    public void ListItems()
+    {
+        foreach(var item in Items){
+            GameObject obj = Instantiate(inventoryItem, itemContent); 
+            var itemName = obj.transform.Find("Item/ItemName").GetComponent<Text>();
+            var itemIcon = obj.transform.Find("Item/ItemIcon").GetComponent<Image>();
+
+            itemName.text = item.itemName; 
+            itemIcon.sprite = itemicon; 
+        }
     }
 }
