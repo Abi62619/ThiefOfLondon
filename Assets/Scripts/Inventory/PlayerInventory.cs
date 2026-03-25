@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.UI; 
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -18,9 +19,9 @@ public class PlayerInventory : MonoBehaviour
     public int objects; //players total objects 
 
     [Header("Inventory UI")]
-    public static PlayerInventory Instance; 
-    public Transform itemContent; 
-    public GameObject inventoryItem; 
+    public static PlayerInventory Instance; //singleton
+    public Transform itemContent; //UI container 
+    public GameObject inventoryItem; //prefab 
 
     void OnEnable()
     {
@@ -127,18 +128,28 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddObjects(int amount)
     {
-        objects += amount;
+        Debug.Log("=== ADD OBJECTS CALLED ===");
 
         for (int i = 0; i < amount; i++)
         {
-            int randomID = UnityEngine.Random.Range(0, playerDatabase.items.Count);
+            int randomIndex = UnityEngine.Random.Range(0, playerDatabase.items.Count);
 
-            Item objectItem = playerDatabase.GetItem(randomID);
+            Debug.Log("Random index: " + randomIndex);
+
+            Item objectItem = playerDatabase.items[randomIndex];
+
+            if (objectItem == null)
+            {
+                Debug.LogError("Item is NULL!");
+                continue;
+            }
+
+            Debug.Log("Adding item: " + objectItem.name);
 
             items.Add(objectItem);
         }
 
-        Debug.Log("Objects gained: " + amount);
+        Debug.Log("FINAL COUNT: " + items.Count);
     }
 
     public void AddItem(Item item)
@@ -157,13 +168,15 @@ public class PlayerInventory : MonoBehaviour
 
     /*public void ListItems()
     {
-        foreach(var item in Items){
-            GameObject obj = Instantiate(inventoryItem, itemContent); 
+        foreach (var item in items)
+        {
+            GameObject obj = Instantiate(inventoryItem, itemContent);
+
             var itemName = obj.transform.Find("Item/ItemName").GetComponent<Text>();
             var itemIcon = obj.transform.Find("Item/ItemIcon").GetComponent<Image>();
 
-            itemName.text = item.itemName; 
-            itemIcon.sprite = itemicon; 
+            itemName.text = item.name;
+            itemIcon.sprite = item.icon; 
         }
     }*/
 }
