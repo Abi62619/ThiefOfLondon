@@ -7,7 +7,7 @@ public abstract class Item : ScriptableObject
 {
     public ItemType itemType; 
     public int itemId; 
-    public string name; 
+    public string itemName; 
     public Sprite icon; 
 }
 

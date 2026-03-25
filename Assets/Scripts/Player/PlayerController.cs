@@ -86,7 +86,18 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
+
+        if (inputActionAsset == null)
+        {
+            Debug.LogError("InputActionAsset is NULL");
+            return;
+        }
         var actionMap = inputActionAsset.FindActionMap("Player");
+        if (actionMap == null)
+        {
+            Debug.LogError("Player action map NOT FOUND");
+            return;
+        }
 
         moveAction = actionMap.FindAction("Move");
         jumpAction = actionMap.FindAction("Jump");

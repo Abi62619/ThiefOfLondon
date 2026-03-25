@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -123,6 +123,8 @@ public class PlayerInventory : MonoBehaviour
 
         objects = data.objects;
 
+        ListItems(); // UPDATE UI
+
         Debug.Log("Inventory loaded. Item count: " + items.Count);
     }
 
@@ -157,6 +159,7 @@ public class PlayerInventory : MonoBehaviour
         if (item == null) return;
 
         items.Add(item);
+        ListItems(); // UPDATE UI
 
         Debug.Log("Item added: " + item.name);
     }
@@ -166,17 +169,24 @@ public class PlayerInventory : MonoBehaviour
         InventorySaveSystem.SaveInventory(this);
     }
 
-    /*public void ListItems()
+    public void ListItems()
     {
+        // Clear existing UI items first
+        foreach (Transform child in itemContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Rebuild UI
         foreach (var item in items)
         {
             GameObject obj = Instantiate(inventoryItem, itemContent);
 
-            var itemName = obj.transform.Find("Item/ItemName").GetComponent<Text>();
-            var itemIcon = obj.transform.Find("Item/ItemIcon").GetComponent<Image>();
+            Text itemName = obj.transform.Find("Item/ItemName").GetComponent<Text>();
+            Image itemIcon = obj.transform.Find("Item/ItemIcon").GetComponent<Image>();
 
             itemName.text = item.name;
             itemIcon.sprite = item.icon; 
         }
-    }*/
+    }
 }

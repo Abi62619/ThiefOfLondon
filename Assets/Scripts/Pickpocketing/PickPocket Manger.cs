@@ -35,7 +35,7 @@ public class PickPocketManger : MonoBehaviour
 
     [Header("Inventory")]
     [SerializeField] private PlayerInventory playerInventory; 
-    [SerializeField] private ItemDatabase itemDatabase; 
+    public PlayerInventory playerDatabase; 
 
 
     private PickpocketTarget currentTarget;
@@ -83,8 +83,13 @@ public class PickPocketManger : MonoBehaviour
 
     private void StartPickpocketMinigame()
     {
-        pickPocketMiniGameUI.SetActive(true);
+        if (currentTarget == null)
+        {
+            Debug.LogError("Tried to start minigame with no target!");
+            return;
+        }
 
+        pickPocketMiniGameUI.SetActive(true);
         StartGame();
         confirmPickpocketAction.Enable();
     }
@@ -155,6 +160,7 @@ public class PickPocketManger : MonoBehaviour
         confirmPickpocketAction.performed += OnConfirmPickpocket;
 
         interactAction.Enable();
+        confirmPickpocketAction.Enable();
     }
 
     private void OnDisable()
@@ -195,17 +201,21 @@ public class PickPocketManger : MonoBehaviour
 
     private void OnConfirmPickpocket(InputAction.CallbackContext context)
     {
-        Debug.Log("Confirm pressed");
+        try
+        {
+            Debug.Log("Confirm pressed");
 
-        Debug.Log("isPlaying: " + isPlaying);
-        Debug.Log("redBarUI: " + redBarUI);
-        Debug.Log("greenBarUI: " + greenBarUI);
-        Debug.Log("indicatorUI: " + indicatorUI);
+            if (currentTarget == null) return;
+            if (!isPlaying || isGameEnded) return;
 
-        if (!isPlaying || isGameEnded) return;
-
-        CheckSuccess();
+            CheckSuccess();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("ERROR in Confirm: " + e);
+        }
     }
+
     private void CheckSuccess()
     {
         bool success =
@@ -263,6 +273,11 @@ public class PickPocketManger : MonoBehaviour
             Debug.LogError("PlayerInventory not assigned!");
             return;
         }
+        if (currentTarget == null)
+        {
+            Debug.LogError("No target when giving rewards!");
+            return;
+        }
 
         // Objects 
         int objects = UnityEngine.Random.Range(minObject, maxObject + 1);
@@ -271,11 +286,11 @@ public class PickPocketManger : MonoBehaviour
         // ITEM CHANCE
         if (UnityEngine.Random.value <= itemChance)
         {
-            if (itemDatabase.items.Count > 0)
+            if (playerDatabase.items.Count > 0)
             {
-                int randomIndex = UnityEngine.Random.Range(0, itemDatabase.items.Count);
+                int randomIndex = UnityEngine.Random.Range(0, playerDatabase.items.Count);
 
-                Item stolenItem = itemDatabase.items[randomIndex];
+                Item stolenItem = playerDatabase.items[randomIndex];
 
                 playerInventory.AddItem(stolenItem);
 
