@@ -155,7 +155,7 @@ public class PlayerInventory : MonoBehaviour
         InventorySaveSystem.SaveInventory(this);
     }
 
-    public void ListItems()
+    /*public void ListItems()
     {
         foreach(var item in Items){
             GameObject obj = Instantiate(inventoryItem, itemContent); 
@@ -165,5 +165,5 @@ public class PlayerInventory : MonoBehaviour
             itemName.text = item.itemName; 
             itemIcon.sprite = itemicon; 
         }
-    }
+    }*/
 }
