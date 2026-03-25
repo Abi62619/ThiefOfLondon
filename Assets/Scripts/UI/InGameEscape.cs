@@ -31,7 +31,7 @@ public class InGameEscape : MonoBehaviour
         escapeAction.Disable();
     }
 
-  public   void OnEscape(InputAction.CallbackContext context)
+    public   void OnEscape(InputAction.CallbackContext context)
     {
         
         if (!settingsMenu.activeSelf)
