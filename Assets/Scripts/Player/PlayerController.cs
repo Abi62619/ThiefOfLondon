@@ -26,36 +26,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 moveInput;
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private float sprintSpeed = 10f; 
-    [HideInInspector] private bool isSprinting; 
+    private bool isSprinting;
+    public bool IsSprinting => isSprinting;
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 5f; 
-    [HideInInspector] private bool isGrounded; 
+    private bool isGrounded; 
 
     [Header("Mouse Look Settings")]
     [SerializeField] private float mouseSense = 2f;
     [SerializeField] private  float rotationX;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Vector2 mouseInput; 
-    [HideInInspector] private float turnSmoothVelocity; 
+    private float turnSmoothVelocity; 
 
     [Header("Crouch Settings")]
     [SerializeField] private float crouchHeight = 2f;
-    [HideInInspector] private float standingHeight;
-    [HideInInspector] private bool isCrouching;
+    private float standingHeight;
+    private bool isCrouching;
 
     [Header("Slide Settings")]
     [SerializeField] private float slideForce = 12f;
     [SerializeField] private float maxSlideTime = 1f;
     [SerializeField] private float slideYScale = 0.5f;
-    [HideInInspector] private bool isSliding;
-    [HideInInspector] private float slideTimer;
-    [HideInInspector] private float startYScale;
+    private bool isSliding;
+    private float slideTimer;
+    private float startYScale;
 
     [Header("Animation Settings")] 
     [SerializeField] private Animator playerAnim;
     [SerializeField] private float idleTimeBeforeStop = 0f;
-    [HideInInspector] private float idleTimer; 
+    private float idleTimer; 
 
     void Start()
     {
