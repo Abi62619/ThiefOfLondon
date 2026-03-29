@@ -5,13 +5,13 @@ public class SurvivalManager : MonoBehaviour
 {
     [Header("Hunger")]
     [SerializeField] private float maxHunger;
-    [SerializeField] private float hungerDepletionRate = 1f;
+    [SerializeField] private float hungerDepletionRate = 0.1f;
     public float currentHunger;
     public float HungerPercent => currentHunger / maxHunger;
 
     [Header("Thirst")]
     [SerializeField] private float maxThirst = 100f;
-    [SerializeField] private float thirstDepletionRate = 1f;
+    [SerializeField] private float thirstDepletionRate = 0.1f;
     public float currentThirst;
     public float ThirstPercent => currentThirst / maxThirst;
 

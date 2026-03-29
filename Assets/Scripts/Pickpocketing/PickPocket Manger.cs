@@ -33,10 +33,6 @@ public class PickPocketManger : MonoBehaviour
     [SerializeField] private int maxObject = 5;
     [SerializeField] private float itemChance = 0.25f; // 25%--
 
-    [Header("Inventory")]
-    [SerializeField] private PlayerInventory playerInventory; 
-    public PlayerInventory playerDatabase; 
-
 
     private PickpocketTarget currentTarget;
 
@@ -268,37 +264,7 @@ public class PickPocketManger : MonoBehaviour
 
     private void GiveRewards()
     {
-        if (playerInventory == null)
-        {
-            Debug.LogError("PlayerInventory not assigned!");
-            return;
-        }
-        if (currentTarget == null)
-        {
-            Debug.LogError("No target when giving rewards!");
-            return;
-        }
-
-        // Objects 
-        int objects = UnityEngine.Random.Range(minObject, maxObject + 1);
-        playerInventory.AddObjects(objects);
-
-        // ITEM CHANCE
-        if (UnityEngine.Random.value <= itemChance)
-        {
-            if (playerDatabase.items.Count > 0)
-            {
-                int randomIndex = UnityEngine.Random.Range(0, playerDatabase.items.Count);
-
-                Item stolenItem = playerDatabase.items[randomIndex];
-
-                playerInventory.AddItem(stolenItem);
-
-                Debug.Log("Stolen item: " + stolenItem.name);
-            }
-        }
-
-        currentTarget.hasBeenPickpocketed = true;
+        
     }
 
     private void Failure()
