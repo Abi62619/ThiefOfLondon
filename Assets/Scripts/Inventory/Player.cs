@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    public InventoryObject inventory; 
+    public InventoryObject inventory;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

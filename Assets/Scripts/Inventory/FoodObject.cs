@@ -1,9 +1,9 @@
-using UnityEngine; 
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Food Object", menuName = "Inventory System/Items/Food")]
 public class FoodObject : ItemObject
 {
-    public int restoreHungerBar; 
+    public int restoreHealthValue; 
     
     public void Awake()
     {
