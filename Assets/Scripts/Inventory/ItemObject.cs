@@ -1,19 +1,20 @@
 using UnityEngine;
 
-public enum ItemType 
+public enum ItemType
 {
     Food, 
-    Equipment,
-    Tool, 
+    Equipment, 
+    Weapon, 
     Drink, 
-    Misc, 
-    Coin
+    Jewelery, 
+    Coin, 
+    Default
 }
 
 public abstract class ItemObject : ScriptableObject
 {
     public GameObject prefab; 
     public ItemType type; 
-    [TextArea(15,20)]
-    public string description;
+    [TextArea(15, 20)]
+    public string description; 
 }
