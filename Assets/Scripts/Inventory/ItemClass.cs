@@ -1,14 +1,12 @@
-using System.Collections; 
-using UnityEngine; 
+using UnityEngine;
 
-public abstract class ItemClass
+public abstract class ItemClass : ScriptableObject
 {
-    [Header("Item Info")]
     public string itemName;
     public Sprite itemIcon;
 
     public abstract ItemClass GetItem();
-    public abstract ItemClass GetTool(); 
+    public abstract ToolClass GetTool();
     public abstract MiscClass GetMisc();
-    public abstract ConsumableClass GetConsumable();
+    public abstract ConsumableClass GetConsumable();    
 }

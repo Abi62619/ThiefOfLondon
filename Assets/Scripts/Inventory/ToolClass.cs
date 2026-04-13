@@ -1,19 +1,22 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Tool Class", menuName = "Inventory/Tool")]
 public class ToolClass : ItemClass
 {
-    [Header("Tool Info")]
+    [Header("Tool")]
     public ToolType toolType;
 
-    public enum ToolType
-    {
-        sword,
-        shield,
-        helmet
+    public enum ToolType 
+    { 
+        Pickaxe, 
+        Axe, 
+        Shovel, 
+        Sword, 
+        Shield
     }
 
-    public override ItemClass GetItem() {return this;}
-    public override ToolClass GetTool() {return this;}
-    public override MiscClass GetMisc() {return null;}
-    public override ConsumableClass GetConsumable() {return null;}
+    public abstract ItemClass GetItem() { return this; }
+    public abstract ToolClass GetTool() { return this; }
+    public abstract MiscClass GetMisc() { return null; }
+    public abstract ConsumableClass GetConsumable() { return null; }    
 }

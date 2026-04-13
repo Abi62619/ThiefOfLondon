@@ -1,26 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-[System.Serializable]
-public class Item
-{
-    public string itemName;
-    public int quantity;
-    public Sprite icon;
-}
+using System.Collections.Generic;
 
 public class InventoryManager : MonoBehaviour
 {
-    public List<Item> inventory = new List<Item>();
+    public ItemClass itemToAdd; 
+    public ItemClass itemToRemove;
 
-    public void AddItem(Item item)
+    public List<ItemClass> items = new List<ItemClass>();
+
+    public void Start()
     {
-        inventory.Add(item);
+        if (itemToAdd != null)
+        {
+            AddItem(itemToAdd);
+        }
+
+        if (itemToRemove != null)
+        {
+            RemoveItem(itemToRemove);
+        }
     }
 
-    public void RemoveItem(Item item)
+    public void AddItem(ItemClass item)
     {
-        inventory.Remove(item);
+        items.Add(item);
+        Debug.Log("Added item: " + item.itemName);
+    }
+
+    public void RemoveItem(ItemClass item)
+    {
+        if (items.Contains(item))
+        {
+            items.Remove(item);
+            Debug.Log("Removed item: " + item.itemName);
+        }
+        else
+        {
+            Debug.Log("Item not found in inventory: " + item.itemName);
+        }
     }
 }

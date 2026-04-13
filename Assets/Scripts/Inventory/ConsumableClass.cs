@@ -1,20 +1,22 @@
-using System.Collections;
 using UnityEngine;
-using System.collections.Generic;
 
 public class ConsumableClass : ItemClass
 {
-    [Header("Consumable Info")]
-    public float effectValue;
+    [Header("Consumable")]
+    public ConsumableType consumableType;
+    public float hungerRestore;
+    public float thirstRestore;
+    public float staminaRestore;
 
-    public enum ConsumableType
-    {
-        food,
-        drink
+    public enum ConsumableType 
+    { 
+        Food, 
+        Drink, 
+        Medicine 
     }
 
-    public override ItemClass GetItem() {return this;}
-    public override ToolClass GetTool() {return this;}
-    public override MiscClass GetMisc() {return null;}
-    public override ConsumableClass GetConsumable() {return null;}
+    public abstract ItemClass GetItem() { return this; }
+    public abstract ToolClass GetTool() { return null; }
+    public abstract MiscClass GetMisc() { return null; }
+    public abstract ConsumableClass GetConsumable() { return this; }    
 }
