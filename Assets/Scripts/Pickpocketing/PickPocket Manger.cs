@@ -224,6 +224,7 @@ public class PickPocketManger : MonoBehaviour
         {
             GiveRewards();
             Debug.Log("[PickPocket] Pickpocket successful");
+            CloseMinigame();
         }
         else
         {
@@ -270,7 +271,19 @@ public class PickPocketManger : MonoBehaviour
     private void Failure()
     {
         Debug.Log("[PickPocket] Pickpocket failed - NPC alerted");
-    }   
+
+        if (currentTarget != null)
+        {
+            NPCPolice police = currentTarget.GetComponent<NPCPolice>();
+
+            if (police != null)
+            {
+                police.Alert(transform); // pass player transform
+            }
+        }
+
+        CloseMinigame();
+    }  
 
     public void TestButton()
     {
