@@ -9,10 +9,12 @@ public class NPCPolice : MonoBehaviour
     public float arrestDistance = 2f;
     private bool isChasing = false;
 
+    private PickPocketManager pickpocketManager; 
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        isChasing = true; 
+        pickpocketManager = GetComponent<PickPocketManager>(); 
         Debug.Log("NPCPolice started, isChasing = " + isChasing);
     }
 
