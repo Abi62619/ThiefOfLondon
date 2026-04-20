@@ -1,57 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI; 
+using UnityEngine.AI;
 
 public class NPCPolice : MonoBehaviour
 {
     public Transform player;
+    public float viewDistance = 10f;
     private NavMeshAgent agent;
-
-    public float arrestDistance = 2f;
-    private bool isChasing = false;
-
-    private PickPocketManager pickpocketManager; 
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        pickpocketManager = GetComponent<PickPocketManager>(); 
-        Debug.Log("NPCPolice started, isChasing = " + isChasing);
     }
 
     void Update()
     {
-        if (isChasing)
+        RaycastHit hit;
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+
+        // Visualize ray in scene view
+        Debug.DrawRay(transform.position, directionToPlayer * viewDistance, Color.red);
+
+        // Raycast check: sees player if nothing obstructs the view
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, viewDistance))
         {
-            agent.SetDestination(player.position);
-
-            float distance = Vector3.Distance(transform.position, player.position);
-
-            Debug.Log("Chasing player...");
-
-            if (distance <= arrestDistance)
+            if (hit.transform == player)
             {
-                ArrestPlayer();
+                // SEE PLAYER: Move towards
+                agent.SetDestination(player.position);
+            }
+            else
+            {
+                // DO NOT SEE PLAYER: Stop
+                agent.SetDestination(transform.position);
             }
         }
     }
 
-    public void Alert(Transform playerTransform)
+    void PoliceAlerted()
     {
-        Debug.Log("NPC ALERTED");
-        player = playerTransform;
-        isChasing = true;
-    }
-
-    private void ArrestPlayer()
-    {
-        Debug.Log("Player Arrested!");
-
-        // Stop movement
-        agent.isStopped = true;
-        isChasing = false;
-
-        // test punishment
-        Time.timeScale = 0f; // pause game
-        // or reduce money, send to jail
+        
     }
 }

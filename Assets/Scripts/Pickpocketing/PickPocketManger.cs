@@ -15,10 +15,19 @@ public class PickPocketManager : MonoBehaviour
     [SerializeField] private RectTransform greenBarUI;
     [SerializeField] private RectTransform indicatorUI;
 
+    private float successZoneCenter;
+    private float successZoneHalfWidth;
+    private float leftRedBound;
+    private float rightRedBound;
+    
+    private bool isPlaying = false;
+    private bool isGameEnded = false;
+
     [Header("Pickpocket Settings")]
     [SerializeField] private float moveSpeed = 300f;
     private float currentIndicatorPosition;
     private int currentDirection = 1;
+    private PickpocketTarget currentTarget;
 
     [SerializeField] private float minSuccessSize = 5f;
     [SerializeField] private float maxSuccessSize = 20f;
@@ -28,101 +37,12 @@ public class PickPocketManager : MonoBehaviour
     [SerializeField] private float interactDistance = 3.0f;
     [SerializeField] private LayerMask npcLayer;
 
-    private PickpocketTarget currentTarget;
+    [Header("Failure Settings")]
+    private bool isFailed; 
+    [HideInInspector] public bool isPoliceAlerted; 
 
-    private float successZoneCenter;
-    private float successZoneHalfWidth;
 
-    private float leftRedBound;
-    private float rightRedBound;
-
-    private bool isPlaying = false;
-    private bool isGameEnded = false;
-
-    void Start()
-    {
-        pickPocketMiniGameUI.SetActive(false);
-    }
-
-    void Update()
-    {
-        // Always show ray for debugging
-        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * interactDistance, Color.red);
-
-        if (!isPlaying || isGameEnded) return;
-
-        MoveIndicator();
-    }
-
-    private void StartGame()
-    {
-        leftRedBound = -redBarUI.rect.width / 2f;
-        rightRedBound = redBarUI.rect.width / 2f;
-
-        currentIndicatorPosition = leftRedBound;
-        UpdateIndicatorPosition();
-
-        SetupSuccessZone();
-
-        isPlaying = true;
-        isGameEnded = false;
-    }
-
-    private void StartPickpocketMinigame()
-    {
-        Debug.Log("STARTING MINIGAME"); // 👈 add this
-
-        if (currentTarget == null)
-        {
-            Debug.LogError("No target found for minigame!");
-            return;
-        }
-
-        pickPocketMiniGameUI.SetActive(true);
-        StartGame();
-        confirmPickpocketAction.Enable();
-    }
-
-    private void UpdateIndicatorPosition()
-    {
-        indicatorUI.anchoredPosition =
-            new Vector2(currentIndicatorPosition, redBarUI.anchoredPosition.y);
-    }
-
-    private void SetupSuccessZone()
-    {
-        float width = redBarUI.rect.width *
-            UnityEngine.Random.Range(minSuccessSize, maxSuccessSize) / 100f;
-
-        successZoneHalfWidth = width / 2f;
-
-        float minCenter = leftRedBound + successZoneHalfWidth;
-        float maxCenter = rightRedBound - successZoneHalfWidth;
-
-        successZoneCenter = UnityEngine.Random.Range(minCenter, maxCenter);
-
-        greenBarUI.sizeDelta = new Vector2(width, greenBarUI.sizeDelta.y);
-        greenBarUI.anchoredPosition =
-            new Vector2(successZoneCenter, redBarUI.anchoredPosition.y);
-    }
-
-    private void MoveIndicator()
-    {
-        currentIndicatorPosition += moveSpeed * currentDirection * Time.deltaTime;
-
-        if (currentIndicatorPosition >= rightRedBound)
-        {
-            currentIndicatorPosition = rightRedBound;
-            currentDirection = -1;
-        }
-        else if (currentIndicatorPosition <= leftRedBound)
-        {
-            currentIndicatorPosition = leftRedBound;
-            currentDirection = 1;
-        }
-
-        UpdateIndicatorPosition();
-    }
+    #region Input Setup
 
     private void OnEnable()
     {
@@ -192,63 +112,9 @@ public class PickPocketManager : MonoBehaviour
         StartPickpocketMinigame();
     }
 
-    private void OnConfirmPickpocket(InputAction.CallbackContext context)
-    {
-        if (currentTarget == null) return;
-        if (!isPlaying || isGameEnded) return;
+    #endregion
 
-        CheckSuccess();
-    }
-
-    private void CheckSuccess()
-    {
-        bool success =
-            currentIndicatorPosition >= (successZoneCenter - successZoneHalfWidth) &&
-            currentIndicatorPosition <= (successZoneCenter + successZoneHalfWidth);
-
-        Debug.Log("Success: " + success);
-
-        if (success)
-        {
-            Debug.Log("Pickpocket successful");
-            CloseMinigame();
-        }
-        else
-        {
-            Failure();
-        }
-
-        isGameEnded = true;
-        isPlaying = false;
-    }
-
-    public void CloseMinigame()
-    {
-        pickPocketMiniGameUI.SetActive(false);
-    }
-
-    private void Failure()
-    {
-        Debug.Log("Pickpocket FAILED - alerting NPC");
-
-        if (currentTarget != null)
-        {
-            NPCPolice police =
-                currentTarget.GetComponentInParent<NPCPolice>();
-
-            if (police != null)
-            {
-                Debug.Log("Police found, sending alert");
-                police.Alert(transform); // send player transform
-            }
-            else
-            {
-                Debug.LogError("NPCPolice NOT found on target!");
-            }
-        }
-
-        CloseMinigame();
-    }
+    #region Find NPC
 
     private bool TryFindNPC()
     {
@@ -281,4 +147,148 @@ public class PickPocketManager : MonoBehaviour
         currentTarget = null;
         return false;
     }
+
+    #endregion
+
+    #region Minigame
+
+    void Start()
+    {
+        pickPocketMiniGameUI.SetActive(false);
+    }
+
+    void Update()
+    {
+        // Always show ray for debugging
+        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * interactDistance, Color.red);
+
+        if (!isPlaying || isGameEnded) return;
+
+        MoveIndicator();
+    }
+
+    private void StartGame()
+    {
+        leftRedBound = -redBarUI.rect.width / 2f;
+        rightRedBound = redBarUI.rect.width / 2f;
+
+        currentIndicatorPosition = leftRedBound;
+        UpdateIndicatorPosition();
+
+        SetupSuccessZone();
+
+        isPlaying = true;
+        isGameEnded = false;
+    }
+
+    private void StartPickpocketMinigame()
+    {
+        Debug.Log("STARTING MINIGAME"); // 👈 add this
+
+        if (currentTarget == null)
+        {
+            Debug.LogError("No target found for minigame!");
+            return;
+        }
+
+        pickPocketMiniGameUI.SetActive(true);
+        StartGame();
+        confirmPickpocketAction.Enable();
+    }
+
+    private void CloseMinigame()
+    {
+        pickPocketMiniGameUI.SetActive(false); 
+    }
+
+    private void MoveIndicator()
+    {
+        currentIndicatorPosition += moveSpeed * currentDirection * Time.deltaTime;
+
+        if (currentIndicatorPosition >= rightRedBound)
+        {
+            currentIndicatorPosition = rightRedBound;
+            currentDirection = -1;
+        }
+        else if (currentIndicatorPosition <= leftRedBound)
+        {
+            currentIndicatorPosition = leftRedBound;
+            currentDirection = 1;
+        }
+
+        UpdateIndicatorPosition();
+    }
+
+    private void UpdateIndicatorPosition()
+    {
+        indicatorUI.anchoredPosition =
+            new Vector2(currentIndicatorPosition, redBarUI.anchoredPosition.y);
+    }
+
+    #endregion 
+
+    #region check success
+
+    private void SetupSuccessZone()
+    {
+        float width = redBarUI.rect.width *
+            UnityEngine.Random.Range(minSuccessSize, maxSuccessSize) / 100f;
+
+        successZoneHalfWidth = width / 2f;
+
+        float minCenter = leftRedBound + successZoneHalfWidth;
+        float maxCenter = rightRedBound - successZoneHalfWidth;
+
+        successZoneCenter = UnityEngine.Random.Range(minCenter, maxCenter);
+
+        greenBarUI.sizeDelta = new Vector2(width, greenBarUI.sizeDelta.y);
+        greenBarUI.anchoredPosition =
+            new Vector2(successZoneCenter, redBarUI.anchoredPosition.y);
+    }
+
+    private void OnConfirmPickpocket(InputAction.CallbackContext context)
+    {
+        if (currentTarget == null) return;
+        if (!isPlaying || isGameEnded) return;
+
+        CheckSuccess();
+    }
+
+    private void CheckSuccess()
+    {
+        bool success =
+            currentIndicatorPosition >= (successZoneCenter - successZoneHalfWidth) &&
+            currentIndicatorPosition <= (successZoneCenter + successZoneHalfWidth);
+
+        Debug.Log("Success: " + success);
+
+        if (success)
+        {
+            Debug.Log("Pickpocket successful");
+            CloseMinigame();
+        }
+        else
+        {
+            Failure();
+        }
+
+        isGameEnded = true;
+        isPlaying = false;
+    }
+
+
+    #endregion 
+
+    #region failure
+
+    private void Failure()
+    {
+        if(isFailed == true)
+        {
+            isPoliceAlerted = true; 
+            Debug.Log("Police is alerted"); 
+        }
+    }
+
+    #endregion 
 }
