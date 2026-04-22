@@ -40,7 +40,7 @@ public class PickPocketManager : MonoBehaviour
     [Header("Failure Settings")]
     private bool isFailed; 
     [HideInInspector] public bool isPoliceAlerted; 
-
+    [SerializeField] private NPCPolice police;
 
     #region Input Setup
 
@@ -155,6 +155,8 @@ public class PickPocketManager : MonoBehaviour
     void Start()
     {
         pickPocketMiniGameUI.SetActive(false);
+
+        NPCPolice police = FindObjectOfType<NPCPolice>();
     }
 
     void Update()
@@ -269,6 +271,7 @@ public class PickPocketManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("failed"); 
             Failure();
         }
 
@@ -281,12 +284,12 @@ public class PickPocketManager : MonoBehaviour
 
     #region failure
 
-    private void Failure()
+    public void Failure()
     {
-        if(isFailed == true)
+        if(isFailed = true)
         {
-            isPoliceAlerted = true; 
             Debug.Log("Police is alerted"); 
+            police.Alerted();
         }
     }
 
