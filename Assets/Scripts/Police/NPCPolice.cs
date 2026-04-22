@@ -51,23 +51,26 @@ public class NPCPolice : MonoBehaviour
         {
             if (hit.transform == player)
             {
-                // SEE PLAYER: Move towards
                 agent.SetDestination(player.position);
                 policeAnim.SetBool("isPoliceWalking", true);
-                idleTimer = 0f; //reset when moving
+                idleTimer = 0f;
             }
             else
             {
-                // DO NOT SEE PLAYER: Stop
-                agent.SetDestination(transform.position);
-
-                idleTimer += Time.deltaTime;
-
-                if (idleTimer >= idleTimeBeforeStop)
-                {
-                    policeAnim.SetBool("isPoliceWalking", false);
-                }
+                StopMoving();
             }
+        }
+    }
+
+    void StopMoving()
+    {
+        agent.SetDestination(transform.position);
+
+        idleTimer += Time.deltaTime;
+
+        if (idleTimer >= idleTimeBeforeStop)
+        {
+            policeAnim.SetBool("isPoliceWalking", false);
         }
     }
 }
