@@ -128,8 +128,8 @@ public class PlayerController : MonoBehaviour
         slideAction.canceled += OnSlideStop;
 
         // sprint start + stop 
-        sprintAction.performed += OnSprint; 
-        sprintAction.canceled += OnSprint; 
+        sprintAction.performed += OnSprinting; 
+        sprintAction.canceled += OnSprinting; 
     }
 
     void OnDisable()
@@ -153,8 +153,8 @@ public class PlayerController : MonoBehaviour
         slideAction.canceled -= OnSlideStop;
 
         // sprint start + stop 
-        sprintAction.performed -= OnSprint; 
-        sprintAction.canceled -= OnSprint; 
+        sprintAction.performed -= OnSprinting; 
+        sprintAction.canceled -= OnSprinting; 
     }
 
     #endregion
@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnSprint(InputAction.CallbackContext context)
+    void OnSprinting(InputAction.CallbackContext context)
     {
         isSprinting = context.ReadValueAsButton();
         playerAnim.SetBool("isSprinting", isSprinting);

@@ -2398,7 +2398,7 @@ MonoBehaviour:
   playerCamera: {fileID: 2129874901}
   moveInput: {x: 0, y: 0}
   moveSpeed: 6
-  sprintSpeed: 30
+  sprintSpeed: 10
   jumpForce: 5
   mouseSense: 0.5
   rotationX: 0
@@ -4075,17 +4075,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1537969109}
     - target: {fileID: 5044867163730993590, guid: 3adc07143df239c43b59e60f3098bcf1, type: 3}
+      propertyPath: playerRb
+      value: 
+      objectReference: {fileID: 1537969105}
+    - target: {fileID: 5044867163730993590, guid: 3adc07143df239c43b59e60f3098bcf1, type: 3}
       propertyPath: policeAnim
       value: 
       objectReference: {fileID: 1637480391}
-    - target: {fileID: 5044867163730993590, guid: 3adc07143df239c43b59e60f3098bcf1, type: 3}
-      propertyPath: sprintSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 5044867163730993590, guid: 3adc07143df239c43b59e60f3098bcf1, type: 3}
-      propertyPath: loseSightTime
-      value: 120
-      objectReference: {fileID: 0}
     - target: {fileID: 5044867163730993590, guid: 3adc07143df239c43b59e60f3098bcf1, type: 3}
       propertyPath: pickpocketManager
       value: 

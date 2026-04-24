@@ -6,8 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/GameScene.unity
+    guid: ed843b0ea1644af4c819fed7ccb1974b
+  - enabled: 1
+    path: Assets/Scenes/EndScene/Arrested.unity
+    guid: fe14f5849fcf861438ceaabad8c1ac45
+  - enabled: 1
+    path: Assets/Scenes/EndScene/Dehydration.unity
+    guid: 39449ff4def877342a7d8d8f93343d09
+  - enabled: 1
+    path: Assets/Scenes/EndScene/Starved.unity
+    guid: 05931dd959a14034a8a099e9ae161c6f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
