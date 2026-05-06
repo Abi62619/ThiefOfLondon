@@ -1,5 +1,6 @@
 using UnityEngine; 
 using UnityEngine.Events; 
+using UnityEngine.SceneManagement;
 
 public class SurvivalManager : MonoBehaviour
 {
@@ -40,11 +41,16 @@ public class SurvivalManager : MonoBehaviour
         currentHunger -= hungerDepletionRate * Time.deltaTime;
         currentThirst -= thirstDepletionRate * Time.deltaTime;
 
-        if (currentHunger <= 0 || currentThirst <= 0)
+        if (currentHunger <= 0)
         {
-            OnPlayerDied?.Invoke();
-            currentHunger = 0;
-            currentThirst = 0;
+            Debug.Log("Player starved");
+            Starved();
+        }
+
+        if (currentThirst <= 0)
+        {
+            Debug.Log("Player dehydrated");
+            Dehydration();
         }
 
         if (playerController != null && playerController.IsSprinting)
@@ -66,5 +72,17 @@ public class SurvivalManager : MonoBehaviour
         }
 
         if (currentStamina < 0) currentStamina = 0;
+    }
+
+    public void Dehydration()
+    {
+        currentThirst = 0;
+        SceneManager.LoadScene("Dehydration"); 
+    }
+
+    public void Starved()
+    {
+        currentHunger = 0; 
+        SceneManager.LoadScene("Starved"); 
     }
 }

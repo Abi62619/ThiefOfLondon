@@ -93,15 +93,12 @@ public class PickPocketManager : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        Debug.Log("INTERACT PRESSED");
 
         if (!TryFindNPC())
         {
             Debug.Log("NO NPC HIT");
             return;
         }
-
-        Debug.Log("NPC FOUND");
 
         if (currentTarget.hasBeenPickpocketed)
         {
@@ -130,7 +127,6 @@ public class PickPocketManager : MonoBehaviour
 
             if (target != null)
             {
-                Debug.Log("VALID NPC FOUND");
                 currentTarget = target;
                 return true;
             }
@@ -185,8 +181,6 @@ public class PickPocketManager : MonoBehaviour
 
     private void StartPickpocketMinigame()
     {
-        Debug.Log("STARTING MINIGAME"); // 👈 add this
-
         if (currentTarget == null)
         {
             Debug.LogError("No target found for minigame!");
@@ -286,11 +280,8 @@ public class PickPocketManager : MonoBehaviour
 
     public void Failure()
     {
-        if(isFailed = true)
-        {
-            Debug.Log("Police is alerted"); 
-            police.Alerted();
-        }
+        Debug.Log("Police is alerted"); 
+        police.Alerted();
     }
 
     #endregion 
