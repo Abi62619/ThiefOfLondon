@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
-using Synty.AnimationBaseLocomotion.Samples;
 
 public class PlayerController : MonoBehaviour
 {
