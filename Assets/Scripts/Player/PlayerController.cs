@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded; 
 
     [Header("Mouse Look Settings")]
-    [SerializeField] private float mouseSense = 2f;
+    [SerializeField] private float mouseSense = 1f;
     [SerializeField] private  float rotationX;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Vector2 mouseInput; 
