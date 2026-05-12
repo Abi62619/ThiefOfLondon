@@ -13,19 +13,21 @@ public class WaypointMover : MonoBehaviour
     private int currentWaypointIndex; 
     private bool isWaiting; 
 
+    public PauseMenu pauseMenu; 
+
     void Start()
     {
         _waypoints = new Transform[waypointParent.childCount]; 
 
         for(int i = 0; i < waypointParent.childCount; i++)
         {
-            waypoints[i] = waypointParent.GetChild(i); 
+            _waypoints[i] = waypointParent.GetChild(i); 
         }
     }
 
     void Update()
     {
-        if(PauseMenu.IsGamePaused || isWaiting)
+        if(pauseMenu.isGamePaused || isWaiting)
         {
             return; 
         }
@@ -52,6 +54,8 @@ public class WaypointMover : MonoBehaviour
 
         // if looping is enabled : increment currentWaypointIndex and wrap around if needed
         // if not looping: increment currentWaypointIndex but dont exceed last waypoint 
-        currentWaypointIndex = loopWaypoints ? (currentWaypointIndex + 1) % waypoints.length : Mathf.Min(currentWaypointIndex + 1, _waypoints.Length - 1); 
+        currentWaypointIndex = loopWaypoints ? (currentWaypointIndex + 1) % _waypoints.Length : Mathf.Min(currentWaypointIndex + 1, _waypoints.Length - 1); 
+
+        isWaiting = false;
     }
 }

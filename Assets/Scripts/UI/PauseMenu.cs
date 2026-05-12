@@ -4,17 +4,20 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuPanel;
+    public bool isGamePaused; 
 
     public void PauseGame()
     {
         Time.timeScale = 0f; // Pause the game
         pauseMenuPanel.SetActive(true); // Show the pause menu
+        isGamePaused = true; 
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1f; // Resume the game
         pauseMenuPanel.SetActive(false); // Hide the pause menu
+        isGamePaused = false; 
     }
 
     public void QuitGame()
