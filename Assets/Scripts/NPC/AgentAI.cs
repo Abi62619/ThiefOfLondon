@@ -16,7 +16,6 @@ public class AgentAI : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>(); 
-
     }
     
     void Update()

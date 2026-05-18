@@ -526,10 +526,10 @@
                 {
                     "name": "",
                     "id": "27f5ff59-5a29-4d81-bba8-ccaf146a7961",
-                    "path": "",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Slide",
                     "isComposite": false,
                     "isPartOfComposite": false
