@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Playground.unity
+    path: Assets/Scenes/Stuff/Playground.unity
     guid: ed843b0ea1644af4c819fed7ccb1974b
   - enabled: 1
     path: Assets/Scenes/EndScenes/Arrested.unity
