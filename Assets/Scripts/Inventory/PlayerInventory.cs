@@ -33,9 +33,9 @@ public class PlayerInventory : MonoBehaviour
         saveAction.Enable(); 
         loadAction.Enable(); 
 
-        saveAction.performed += OnSave;
+        saveAction.performed += OnSaving;
 
-        loadAction.performed += OnLoad;
+        loadAction.performed += OnLoading;
     }
 
     void OnDisable()
@@ -43,24 +43,25 @@ public class PlayerInventory : MonoBehaviour
         saveAction.Disable();
         loadAction.Disable();
 
-        saveAction.performed -= OnSave; 
-        loadAction.performed -= OnLoad; 
+        saveAction.performed -= OnSaving; 
+        loadAction.performed -= OnLoading; 
     }
 
-    public void OnSave(InputAction.CallbackContext context)
+    public void OnSaving(InputAction.CallbackContext context)
     {
         inventory.Save(); 
         Debug.Log("Saving Inventory"); 
     }
 
-    public void OnLoad(InputAction.CallbackContext context)
+    public void OnLoading(InputAction.CallbackContext context)
     {
         inventory.Load(); 
         Debug.Log("Loading Inventory"); 
     }
 
-        private void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
+        inventory.Save(); 
         inventory.Container.Clear(); 
     }
 }

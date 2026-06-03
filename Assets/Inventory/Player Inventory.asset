@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryObject
   savePath: /inventory.dat
   database: {fileID: 11400000, guid: 03699dbd7c0d8394b88ef5349d8c6159, type: 2}
-  Container: []
+  Container:
+  - ID: 0
+    item: {fileID: 11400000, guid: a4da74890245fbf45ad137cfd3869b6f, type: 2}
+    amount: 1

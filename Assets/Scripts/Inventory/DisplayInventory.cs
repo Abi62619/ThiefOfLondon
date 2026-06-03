@@ -2,29 +2,63 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem; 
 
 public class DisplayInventory : MonoBehaviour
 {
+    [Header("Input System")]
+    public InputActionAsset inputActionAsset;
+    public GameObject inventoryUI;
+    private InputAction showAction;
+
+    [Header("Display Inventory")]
     public InventoryObject inventory;
-    
     public int X_START; 
     public int Y_START; 
     public int X_SPACE_BETWEEN_ITEM;
     public int NUMBER_OF_COLUMN;
     public int Y_SPACE_BETWEEN_ITEMS;
 
-    // CHANGED: int key instead of InventorySlot
     Dictionary<int, GameObject> itemsDisplayed = new Dictionary<int, GameObject>();
 
     void Start()
     {
-        CreateDisplay();
+        //CreateDisplay();
     }
 
     void Update()
     {
-        UpdateDisplay();
+        if (inventoryUI.activeSelf)
+            UpdateDisplay();
     }
+
+    void OnEnable()
+    {
+        var actionMap = inputActionAsset.FindActionMap("Player");
+
+        showAction = actionMap.FindAction("Show");
+
+        actionMap.Enable();
+        showAction.Enable(); 
+
+        showAction.performed += OnShowing;
+    }
+
+    void OnDisable()
+    {
+        showAction.Disable();
+        showAction.performed -= OnShowing; 
+    }     
+
+    public void OnShowing(InputAction.CallbackContext context)
+    {
+        inventoryUI.SetActive(!inventoryUI.activeSelf);
+
+        if (inventoryUI.activeSelf)
+            CreateDisplay();
+        else
+            ClearDisplay();
+    } 
 
     public void CreateDisplay()
     {
@@ -60,5 +94,12 @@ public class DisplayInventory : MonoBehaviour
                 itemsDisplayed.Add(i, obj);
             }
         }
+    }
+
+    void ClearDisplay()
+    {
+        foreach (var item in itemsDisplayed.Values)
+            Destroy(item);
+        itemsDisplayed.Clear();
     }
 }

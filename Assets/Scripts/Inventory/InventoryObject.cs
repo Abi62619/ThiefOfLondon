@@ -1,6 +1,5 @@
 using UnityEngine; 
 using System.Collections.Generic; 
-using System.Runtime.Serialization.Formatters.Binary; 
 using System.IO; 
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
@@ -26,27 +25,30 @@ public class InventoryObject : ScriptableObject, ISerializationCallbackReceiver
 
     public void Save()
     {
-        string saveDate = JsonUtility.ToJson(this, true); 
-        BinaryFormatter bf = new BinaryFormatter(); 
-        FileStream file = File.Create(string.Concat(Application.persistentDataPath, savePath)); 
-        bf.Serialize(file, saveDate); 
-        file.Close(); 
+        string fullPath = Path.Combine(Application.persistentDataPath, savePath);
+        string saveData = JsonUtility.ToJson(this, true);
+        File.WriteAllText(fullPath, saveData);
+        Debug.Log("Saved to: " + fullPath);
     }
 
     public void Load()
     {
-        if(File.Exists(string.Concat(Application.persistentDataPath, savePath)))
+        string fullPath = Path.Combine(Application.persistentDataPath, savePath);
+        if(File.Exists(fullPath))
         {
-            BinaryFormatter bf = new BinaryFormatter(); 
-            FileStream file = File.Open(string.Concat(Application.persistentDataPath, savePath), FileMode.Open); 
-            JsonUtility.FromJsonOverwrite(bf.Deserialize(file).ToString(), this); 
-            file.Close(); 
+            string saveData = File.ReadAllText(fullPath);
+            JsonUtility.FromJsonOverwrite(saveData, this);
+            Debug.Log("Loaded from: " + fullPath);
+        }
+        else
+        {
+            Debug.LogWarning("No save file found at: " + fullPath);
         }
     }
 
     public void OnAfterDeserialize()
     {
-        for(int i =0; i < Container.Count; i++)
+        for(int i = 0; i < Container.Count; i++)
         {
             Container[i].item = database.GetItem[Container[i].ID]; 
         }

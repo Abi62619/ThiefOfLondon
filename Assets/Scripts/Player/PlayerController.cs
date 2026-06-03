@@ -116,19 +116,16 @@ public class PlayerController : MonoBehaviour
         sprintAction.Enable(); 
 
         // jump start 
-        jumpAction.performed += OnJump;
+        jumpAction.performed += OnJumping;
 
         //crouch start + stop 
-        crouchAction.performed += OnCrouch;
-        crouchAction.canceled += OnCrouch; 
+        crouchAction.performed += OnCrouching;
 
         // slide start + stop
         slideAction.started += OnSlideStart;
-        slideAction.canceled += OnSlideStop;
 
         // sprint start + stop 
         sprintAction.performed += OnSprinting; 
-        sprintAction.canceled += OnSprinting; 
     }
 
     void OnDisable()
@@ -141,19 +138,16 @@ public class PlayerController : MonoBehaviour
         sprintAction.Disable(); 
 
         // jump start 
-        jumpAction.performed -= OnJump;
+        jumpAction.performed -= OnJumping;
 
         //crouch start + stop 
-        crouchAction.performed -= OnCrouch;
-        crouchAction.canceled -= OnCrouch; 
+        crouchAction.performed -= OnCrouching;
 
         // slide start + stop
         slideAction.started -= OnSlideStart;
-        slideAction.canceled -= OnSlideStop;
 
         // sprint start + stop 
         sprintAction.performed -= OnSprinting; 
-        sprintAction.canceled -= OnSprinting; 
     }
 
     #endregion
@@ -223,7 +217,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     #region Jump
 
-    void OnJump(InputAction.CallbackContext context)
+    void OnJumping(InputAction.CallbackContext context)
     {
         if (!isGrounded) return;
 
@@ -302,7 +296,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     #region Crouch
 
-    void OnCrouch(InputAction.CallbackContext context)
+    void OnCrouching(InputAction.CallbackContext context)
     {
         isCrouching = context.ReadValueAsButton();
 
